@@ -1,3 +1,4 @@
+import 'package:EVENTually/events.dart';
 import 'package:flutter/material.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart'
 
@@ -28,7 +29,17 @@ class MyHomePage extends StatelessWidget {
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('Hello World')],
+          children: <Widget>[
+            RaisedButton(
+              child: Text('press me'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) { return EventsPage(); })
+                    );
+              },
+            )
+          ],
         )));
   }
 }
