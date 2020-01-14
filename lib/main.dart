@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './Pages/registration.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,30 +12,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'EVENTually'),
+      home: UserRegistration(),
     );
   }
 }
 
-
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title)
-      ),
-      body: Center(
-        child: Column(
+        appBar: AppBar(title: Text(title)),
+        body: Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Hello World')
-          ],
-        )
-      )
-    );
+          children: <Widget>[Text('Hello World')],
+        )));
   }
 }
