@@ -1,5 +1,6 @@
 import 'package:EVENTually/login.dart';
 import 'package:flutter/material.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart'
 
 void main() => runApp(MyApp());
 
@@ -17,23 +18,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  print('Home Page');
+    print('Home Page');
     return Scaffold(
-      appBar: AppBar(
-        title: Text('EVENTually')
-      ),
-      body: Center(
-        child: Column(
+        appBar: AppBar(title: Text('EVENTually')),
+        body: Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Hello World')
-          ],
-        )
-      )
-    );
+          children: <Widget>[Text('Hello World')],
+        )));
   }
 }

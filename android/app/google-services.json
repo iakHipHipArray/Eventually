@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "829949443085",
+    "firebase_url": "https://eventually-db.firebaseio.com",
+    "project_id": "eventually-db",
+    "storage_bucket": "eventually-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829949443085:android:3827bb34dcaece8e75e944",
+        "android_client_info": {
+          "package_name": "com.example.EVENTually"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829949443085-ups5m9n2rb030re3r027ip4fmljcai2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQHFFAT6rQe5Gh_PClbDsBIrsAT2wRBBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829949443085-ups5m9n2rb030re3r027ip4fmljcai2q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
