@@ -1,3 +1,4 @@
+import 'package:EVENTually/main.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -50,9 +51,18 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 RaisedButton(
+                  child: Text('SIGN UP'),
+                  onPressed: () {
+           
+                  },
+                ),
+                RaisedButton(
                   child: Text('LOGIN'),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) { return HomePage(); })
+                    );
                   },
                 )
               ],

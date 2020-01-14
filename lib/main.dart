@@ -12,26 +12,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/' : (context) => HomePage()
-      },
-      // home: LoginPage(),
+      home: LoginPage(),
     );
   }
 }
 
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-  final String title;
-  
   @override
   Widget build(BuildContext context) {
+  print('Home Page');
     return Scaffold(
       appBar: AppBar(
-        title: Text(title)
+        title: Text('EVENTually')
       ),
       body: Center(
         child: Column(
