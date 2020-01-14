@@ -1,5 +1,8 @@
 import 'package:EVENTually/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart'
+import 'package:EVENTually/services/authentication.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final authHandler = new Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +31,14 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 120.0),
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Username'
-              ),
+              decoration: InputDecoration(filled: true, labelText: 'Username'),
             ),
-            SizedBox(height: 12.0,),
+            SizedBox(
+              height: 12.0,
+            ),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText:'Password'
-              ),
+              decoration: InputDecoration(filled: true, labelText: 'Password'),
               obscureText: true,
             ),
             ButtonBar(
@@ -52,17 +52,20 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 RaisedButton(
                   child: Text('SIGN UP'),
-                  onPressed: () {
-           
-                  },
+                  onPressed: () {},
                 ),
                 RaisedButton(
                   child: Text('LOGIN'),
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) { return HomePage(); })
-                    );
+                    authHandler
+                        .handleSignInEmail(
+                            _usernameController.text, _passwordController.text)
+                        .then((FirebaseUser user) {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new HomePage()));
+                    }).catchError((e) => print(e));
                   },
                 )
               ],
@@ -73,4 +76,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
