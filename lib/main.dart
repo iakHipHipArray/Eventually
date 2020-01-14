@@ -12,14 +12,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/' : (context) => HomePage()
+      },
+      // home: LoginPage(),
     );
   }
 }
 
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({Key key, this.title}) : super(key: key);
   final String title;
   
   @override
