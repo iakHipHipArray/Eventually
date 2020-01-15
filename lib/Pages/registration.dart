@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class UserRegistration extends StatefulWidget {
   @override
   _UserRegistrationState createState() => _UserRegistrationState();
@@ -49,7 +50,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                             borderSide: BorderSide(
                                 width: 1,
-                                color: Colors.green,
+                                color: Colors.blue,
                                 style: BorderStyle.solid))),
                   ),
                   SizedBox(
@@ -71,7 +72,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                             borderSide: BorderSide(
                                 width: 1,
-                                color: Colors.green,
+                                color: Colors.blue,
                                 style: BorderStyle.solid))),
                   ),
                   SizedBox(
@@ -93,7 +94,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                             borderSide: BorderSide(
                                 width: 1,
-                                color: Colors.green,
+                                color: Colors.blue,
                                 style: BorderStyle.solid))),
                   ),
                   SizedBox(
@@ -115,7 +116,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                             borderSide: BorderSide(
                                 width: 1,
-                                color: Colors.green,
+                                color: Colors.blue,
                                 style: BorderStyle.solid))),
                   ),
                   SizedBox(
@@ -137,7 +138,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                             borderSide: BorderSide(
                                 width: 1,
-                                color: Colors.green,
+                                color: Colors.blue,
                                 style: BorderStyle.solid))),
                   ),
                   SizedBox(
@@ -145,12 +146,12 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ),
                   ButtonTheme(
                     //elevation: 4,
-                    //color: Colors.green,
+                    //color: Colors.blue,
                     minWidth: double.infinity,
                     child: MaterialButton(
                       onPressed: () => {},
                       textColor: Colors.white,
-                      color: Colors.green,
+                      color: Colors.blue,
                       height: 50,
                       child: Text("LOGIN"),
                     ),
