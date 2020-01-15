@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class UserRegistration extends StatefulWidget {
   @override
   _UserRegistrationState createState() => _UserRegistrationState();
