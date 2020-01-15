@@ -30,7 +30,11 @@ Widget _buildBody(BuildContext context) {
         return ListView.builder(
             itemExtent: 80.0,
             itemCount: snapshot.data['friends'].length,
-            itemBuilder: (context, index) =>
-                new Text(snapshot.data['friends'][index]));
+            itemBuilder: (context, index) => GestureDetector(
+                  child: Center(child: Text(snapshot.data['friends'][index])),
+                  onTap: () {
+                    print('Directs to SingleUser Page');
+                  },
+                ));
       });
 }
