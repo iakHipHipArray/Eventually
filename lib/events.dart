@@ -27,14 +27,14 @@ Widget _buildBody(BuildContext context) {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text('...Loading');
-        return _buildList(context, snapshot.data.documents);
+        // return _buildList(context, snapshot.data.documents);
+        return ListView.builder(
+          itemExtent: 100.0,
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) =>
+              _buildListItem(context, snapshot.data.documents[index]),
+        );
       });
-}
-
-Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-  return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList());
 }
 
 Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
