@@ -23,6 +23,14 @@ class SingleEvent extends StatelessWidget {
                         )
                       ],
                     ),
-                    title: Text('My Event')))));
+                    title: Text('My Event')),
+                body: TabBarView(
+                  children: <Widget>[
+                    Text('Summary'),
+                    Text('Activities'),
+                    Text('Location'),
+                    Text('Dates')
+                  ],
+                ))));
   }
 }
