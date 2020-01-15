@@ -27,11 +27,12 @@ Widget _buildBody(BuildContext context) {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text('...Loading');
+        var keys = snapshot.data.data.keys.toList();
         return ListView.builder(
             itemExtent: 80.0,
-            itemCount: snapshot.data['friends'].length,
+            itemCount: keys.length,
             itemBuilder: (context, index) => GestureDetector(
-                  child: Center(child: Text(snapshot.data['friends'][index])),
+                  child: Center(child: Text(snapshot.data.data[keys[index]])),
                   onTap: () {
                     print('Directs to SingleUser Page');
                   },
