@@ -1,3 +1,4 @@
+import 'package:EVENTually/summary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class SingleEvent extends StatelessWidget {
                     title: Text('My Event')),
                 body: TabBarView(
                   children: <Widget>[
-                    Text('Summary'),
+                    Summary(),
                     Text('Activities'),
                     Text('Location'),
                     Text('Dates')
