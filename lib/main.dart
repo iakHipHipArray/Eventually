@@ -1,3 +1,4 @@
+import 'package:EVENTually/singleEvent.dart';
 import 'package:flutter/material.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart'
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'EVENTually'),
+      home: SingleEvent(),
     );
   }
 }
