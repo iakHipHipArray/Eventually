@@ -7,11 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Map extends StatefulWidget {
   @override
-  MapState createState() => MapState();
+  State<StatefulWidget> createState() {
+    return MapState();
+  }
 }
 
 class MapState extends State<Map> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   @override
   void initState() {
@@ -79,24 +81,8 @@ class MapState extends State<Map> {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: zoomVal)));
   }
 
-  
-  Widget _buildGoogleMap(BuildContext context) {
-   // print(longitude);
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        // markers: {_buildMarker(context, longitude,latitude )}
-      ),
-    );
-  }
-
 Widget _buildBody(BuildContext context) {
+  
   return StreamBuilder(
       stream: Firestore.instance
           .collection('attendees')
@@ -104,60 +90,28 @@ Widget _buildBody(BuildContext context) {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text('...Loading');
-        var keys = snapshot.data.data.keys.toList();
-        var allMarker = {};
+        var markers = <MarkerId, Marker>{};
+        final data = snapshot.data.data;
+        final keys = data.keys.toList();
         for (var i = 0; i < keys.length; i++) {
-          // var name = snapshot.data.data[keys[i]]['name'];
-           var longitude = snapshot.data.data[keys[i]]['location'].longitude;
-        var latitude = snapshot.data.data[keys[i]]['location'].latitude;
-        print(longitude);
-          allMarker[i] = (_buildMarker(context,longitude,latitude));
+          final MarkerId markerId = MarkerId(data[keys[i]]['ID'].toString());
+          final Marker marker = Marker(
+            markerId: markerId,
+            position: LatLng(data[keys[i]]['location'].latitude, data[keys[i]]['location'].longitude)
+          );
+          markers[markerId] = marker;
         }
-       
+
         return GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
-         markers: allMarker.values.toSet()
+         markers: Set<Marker>.of(markers.values)
+         
       );
-        //can I print this without connecthing this markerBuilder to anywhere in this code? didn't work.
-       
       });
 }
 
-
-
-
-Marker _buildMarker(BuildContext context,longitude,latitude){
-  return  Marker(
-  markerId: MarkerId('northcoders'),
-  position: LatLng(latitude, longitude),
-  infoWindow: InfoWindow(title: 'Team EVENTually @ Northcoders, Platform'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueCyan,
-  ),
-);
-}
-
-Marker northcodersMarker = Marker(
-  markerId: MarkerId('northcoders'),
-  position: LatLng(53.7949464, -1.5464861),
-  infoWindow: InfoWindow(title: 'Team EVENTually @ Northcoders, Platform'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueCyan,
-  ),
-);
-
-
-
-Marker appleStoreMarker = Marker(
-  markerId: MarkerId('appleStore'),
-  position: LatLng(53.7967, -1.5450),
-  infoWindow: InfoWindow(title: 'Apple store in Trinity Leeds'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueCyan,
-  ),
-);
 }
