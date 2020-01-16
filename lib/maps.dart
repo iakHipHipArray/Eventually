@@ -36,8 +36,8 @@ class MapState extends State<Map> {
       ),
       body: Stack(
         children: <Widget>[
-          _markerBuilder(context),
-         // _buildGoogleMap(context),
+          _buildBody(context),
+        //   _buildGoogleMap(context),
           _zoomminusfunction(),
           _zoomplusfunction(),
         ],
@@ -80,25 +80,23 @@ class MapState extends State<Map> {
   }
 
   
-  // Widget _buildGoogleMap(BuildContext context) {
-    
-  //   return Container(
-  //     height: MediaQuery.of(context).size.height,
-  //     width: MediaQuery.of(context).size.width,
-  //     child: GoogleMap(
-  //       mapType: MapType.normal,
-  //       initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
-  //       onMapCreated: (GoogleMapController controller) {
-  //         _controller.complete(controller);
-  //       },
-  //       markers: {
-  //         appleStoreMarker, northcodersMarker
-  //       }, //can't add _markerBuilder(context)
-  //     ),
-  //   );
-  // }
+  Widget _buildGoogleMap(BuildContext context) {
+   // print(longitude);
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        // markers: {_buildMarker(context, longitude,latitude )}
+      ),
+    );
+  }
 
-Widget _markerBuilder(BuildContext context) {
+Widget _buildBody(BuildContext context) {
   return StreamBuilder(
       stream: Firestore.instance
           .collection('attendees')
@@ -107,21 +105,41 @@ Widget _markerBuilder(BuildContext context) {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text('...Loading');
         var keys = snapshot.data.data.keys.toList();
- 
-        print(snapshot.data.data['rmpillar']['location']);
+        var allMarker = {};
+        for (var i = 0; i < keys.length; i++) {
+          // var name = snapshot.data.data[keys[i]]['name'];
+           var longitude = snapshot.data.data[keys[i]]['location'].longitude;
+        var latitude = snapshot.data.data[keys[i]]['location'].latitude;
+        print(longitude);
+          allMarker[i] = (_buildMarker(context,longitude,latitude));
+        }
+       
+        return GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+         markers: allMarker.values.toSet()
+      );
         //can I print this without connecthing this markerBuilder to anywhere in this code? didn't work.
-        return ListView.builder(
-            itemExtent: 80.0,
-            itemCount: keys.length,
-            itemBuilder: (context, index) => GestureDetector(
-                  child: Center(child: Text(snapshot.data.data[keys[index]]['location'].toString())),
-                  onTap: () {
-                    print('Directs to SingleUser Page');
-                  },
-                ));
+       
       });
 }
 
+
+
+
+Marker _buildMarker(BuildContext context,longitude,latitude){
+  return  Marker(
+  markerId: MarkerId('northcoders'),
+  position: LatLng(latitude, longitude),
+  infoWindow: InfoWindow(title: 'Team EVENTually @ Northcoders, Platform'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueCyan,
+  ),
+);
+}
 
 Marker northcodersMarker = Marker(
   markerId: MarkerId('northcoders'),
