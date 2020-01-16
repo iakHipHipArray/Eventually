@@ -50,9 +50,6 @@ class _EventsPageState extends State<EventsPage> {
 
   Widget _buildHeader(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('EVENTually'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +89,7 @@ class _EventsPageState extends State<EventsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('EVENTually'),
+        title: Icon(Icons.home),
       ),
       body: _buildBody(context),
       bottomNavigationBar: buildBottomNavigationBar(),
@@ -108,19 +105,67 @@ class _EventsPageState extends State<EventsPage> {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: getEvents(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return Text('...Loading');
-          if (snapshot.hasError) {
-            return Text('Error ${snapshot.error}');
-          }
-          return ListView.builder(
-            itemExtent: 100.0,
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (context, index) =>
-                _buildListItem(context, snapshot.data.documents[index]),
+      stream: getEvents(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error ${snapshot.error}');
+        }
+        if (snapshot.hasData) {
+          print("Events ${snapshot.data.documents}");
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 20.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Events List',
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => print('Pressing the See All button'),
+                  child: Text(
+                  'See All',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ),
+          ],
+          )
+          ),
+              Container( 
+                 height: 100.0,
+          width: double.infinity,
+          child: Text('Fixed Box'),
+          color: Colors.pink,
+        ),
+              Expanded(
+                          child: ListView.builder(
+                  itemExtent: 100.0,
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, index) =>
+                      _buildListItem(context, snapshot.data.documents[index]),
+                ),
+              ),
+            ],
           );
-        });
+        }
+        return CircularProgressIndicator();
+      },
+    );
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
