@@ -33,10 +33,10 @@ class MyHomePage extends StatelessWidget {
             RaisedButton(
               child: Text('press me'),
               onPressed: () {
-                Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) { return EventsPage(); })
-                    );
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return EventsPage();
+                }));
               },
             )
           ],
