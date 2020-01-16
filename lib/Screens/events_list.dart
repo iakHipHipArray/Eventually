@@ -146,6 +146,17 @@ class _EventsPageState extends State<EventsPage> {
           ],
           )
           ),
+          Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _headericons
+                    .asMap()
+                    .entries
+                    .map(
+                      (MapEntry map) => _buildIcon(map.key),
+                    )
+                    .toList(),
+              ),
+              SizedBox(height: 20.0),
               Container( 
                  height: 100.0,
           width: double.infinity,
