@@ -27,7 +27,6 @@ Widget _buildBody(BuildContext context) {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text('...Loading');
-        // return _buildList(context, snapshot.data.documents);
         return ListView.builder(
           itemExtent: 100.0,
           itemCount: snapshot.data.documents.length,
@@ -37,53 +36,29 @@ Widget _buildBody(BuildContext context) {
       });
 }
 
-Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-  final record = Record.fromSnapshot(data);
-
+Widget _buildListItem(BuildContext context, data) {
   return Padding(
-    key: ValueKey(record.eventName),
+    key: ValueKey(data.data['eventName']),
     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     child: Container(
         child: Column(
       children: <Widget>[
-        Text(record.eventName),
+        Text(data.data['eventName']),
         SizedBox(height: 10),
-        Text(record.summary),
+        Text(data.data['summary']),
         SizedBox(height: 10),
         Row(
           children: <Widget>[
-            record.finalDate != null
-                ? Text('Date: $record.finalDate')
+            data.data['finalDate'] != null
+                ? Text('Date: $data.finalDate')
                 : Text('Date: TBC'),
             Spacer(),
-            record.finalLocation != null
-                ? Text('Location: $record.finalDate')
+            data.data['finalLocation'] != null
+                ? Text('Location: $data.finalDate')
                 : Text('Location: TBC')
           ],
         )
       ],
     )),
   );
-}
-
-class Record {
-  final String eventName;
-  final String summary;
-  final finalDate;
-  final finalLocation;
-  final DocumentReference reference;
-
-  Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['eventName'] != null),
-        assert(map['summary'] != null),
-        eventName = map['eventName'],
-        summary = map['summary'],
-        finalDate = map['finalDate'],
-        finalLocation = map['finalLocation'];
-
-  Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() => "Record<$eventName:$summary>";
 }
