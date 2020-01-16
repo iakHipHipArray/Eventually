@@ -1,4 +1,4 @@
-import 'package:EVENTually/events.dart';
+import 'package:EVENTually/Screens/events_list.dart';
 import 'package:flutter/material.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart'
 
@@ -9,9 +9,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+       theme: ThemeData(
+        primaryColor: Color(0xFF3EBACE),
+        accentColor: Color(0xFFD8ECF1),
+        scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
       home: MyHomePage(title: 'EVENTually'),
     );
