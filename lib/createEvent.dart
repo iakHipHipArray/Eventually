@@ -1,6 +1,7 @@
 import 'package:EVENTually/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 class CreateEvent extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
+  DateTime _dateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -42,40 +44,74 @@ class _CreateEventState extends State<CreateEvent> {
               height: 30.0,
             ),
             MultiSelect(
-                autovalidate: false,
-                titleText: 'Add Friends',
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select one or more friends(s)';
+              autovalidate: false,
+              titleText: 'Add Friends',
+              validator: (value) {
+                if (value == null) {
+                  return 'Please select one or more friends(s)';
+                }
+              },
+              errorText: 'Please select one or more friends(s)',
+              dataSource: [
+                {
+                  "display": "Ryan",
+                  "value": 1,
+                },
+                {
+                  "display": "Robin",
+                  "value": 2,
+                },
+                {
+                  "display": "Narae",
+                  "value": 3,
+                },
+                {
+                  "display": "Inshirah",
+                  "value": 4,
+                }
+              ],
+              textField: 'display',
+              valueField: 'value',
+              filterable: true,
+              required: true,
+              value: null,
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            MaterialButton(
+                color: Colors.deepOrangeAccent,
+                onPressed: () async {
+                  final List<DateTime> picked =
+                      await DateRangePicker.showDatePicker(
+                          context: context,
+                          // initialFirstDate: new DateTime.now(),
+                          // initialLastDate:
+                          //     (new DateTime.now()).add(new Duration(days: 7)),
+                          firstDate: new DateTime(2015),
+                          lastDate: new DateTime(2020));
+                  if (picked != null && picked.length == 2) {
+                    print(picked);
                   }
                 },
-                errorText: 'Please select one or more friends(s)',
-                dataSource: [
-                  {
-                    "display": "Ryan",
-                    "value": 1,
-                  },
-                  {
-                    "display": "Robin",
-                    "value": 2,
-                  },
-                  {
-                    "display": "Narae",
-                    "value": 3,
-                  },
-                  {
-                    "display": "Inshirah",
-                    "value": 4,
-                  }
-                ],
-                textField: 'display',
-                valueField: 'value',
-                filterable: true,
-                required: true,
-                value: null,
-                onSaved: (value) {
-                  print('The value is $value');
-                }),
+                child: new Text("Pick date range")),
+            // Text(
+            //     _dateTime == null ? 'No dates selected' : _dateTime.toString()),
+            // RaisedButton(
+            //   child: Text('Pick a date'),
+            //   onPressed: () {
+            //     DateRangePicker.showDatePicker(
+            //             context: context,
+            //             initialFirstDate: DateTime.now(),
+            //             firstDate: DateTime(2020),
+            //             lastDate: DateTime(2030))
+            //         .then((date) {
+            //       setState(() {
+            //         _dateTime = date;
+            //       });
+            //     });
+            //   },
+            // ),
             ButtonBar(
               children: <Widget>[
                 FlatButton(
