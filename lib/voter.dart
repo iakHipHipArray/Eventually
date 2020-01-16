@@ -38,7 +38,7 @@ class _VoterState extends State<Voter> {
       children: <Widget>[
         GestureDetector(
             child: Icon(
-              (Icons.keyboard_arrow_up),
+              _isButtonDisabled ? (Icons.favorite) : (Icons.favorite_border),
             ),
             onTap: () {
               _isButtonDisabled
