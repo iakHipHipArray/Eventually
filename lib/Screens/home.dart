@@ -7,6 +7,37 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentTab = 0;
+  int _selectedIndex = 0;
+
+    List<IconData> _icons = []; // Placeholder for any additional EVENTually icons
+
+  Widget _buildNavigationBarIcon(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+        print(_selectedIndex);
+      },
+      child: Container(
+        height: 60.0,
+        width: 60.0,
+        decoration: BoxDecoration(
+          color: _selectedIndex == index
+              ? Theme.of(context).accentColor
+              : Color(0xFFE7EBEE),
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        child: Icon(
+          _icons[index],
+          size: 25.0,
+          color: _selectedIndex == index
+              ? Theme.of(context).primaryColor
+              : Color(0xFFf4b9b2),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +71,18 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             items: [
               BottomNavigationBarItem(
-                icon: GestureDetector(
-                  onTap: () => print('Pressing the events icon in the Navigation Bar'),
-                                  child: Icon(
+                  icon: Icon(
                     Icons.event,
                     size: 30.0,
                   ),
-                ),
+                // ),
                 title: SizedBox.shrink(),
               ),
               BottomNavigationBarItem(
-                icon: GestureDetector(
-                  onTap: () => print('Pressing the friends icon in the Navigation Bar'),
-                                  child: Icon(
+                icon:  Icon(
                     Icons.people,
                     size: 30.0,
                   ),
-                ),
                 title: SizedBox.shrink(),
               ),
               BottomNavigationBarItem(
@@ -67,6 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 title: SizedBox.shrink(),
               ),
-            ]));
+            ],
+            ),
+            );
   }
 }
