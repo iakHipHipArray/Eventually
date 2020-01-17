@@ -1,3 +1,4 @@
+import 'package:EVENTually/Widgets/events_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -104,6 +105,7 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   Widget _buildBody(BuildContext context) {
+    const imgindex = 1;
     return StreamBuilder<QuerySnapshot>(
       stream: getEvents(),
       builder: (context, snapshot) {
@@ -116,37 +118,36 @@ class _EventsPageState extends State<EventsPage> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 20.0,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Events List',
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => print('Pressing the See All button'),
-                  child: Text(
-                  'See All',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.0,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 20.0,
                   ),
-                ),
-              ),
-          ],
-          )
-          ),
-          Row(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Events List',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => print('Pressing the See All button'),
+                        child: Text(
+                          'See All',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: _headericons
                     .asMap()
@@ -157,14 +158,40 @@ class _EventsPageState extends State<EventsPage> {
                     .toList(),
               ),
               SizedBox(height: 20.0),
-              Container( 
-                 height: 100.0,
-          width: double.infinity,
-          child: Text('Fixed Box'),
-          color: Colors.pink,
-        ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('All Events',
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          )),
+                      Text(
+                        'See All',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 20.0),
+              EventsCarousel(),
+              SizedBox(height: 20.0),
+              Container(
+                height: 100.0,
+                width: double.infinity,
+                child: Text('Fixed Box'),
+                color: Colors.pink,
+              ),
               Expanded(
-                          child: ListView.builder(
+                child: ListView.builder(
                   itemExtent: 100.0,
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) =>
