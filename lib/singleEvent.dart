@@ -1,3 +1,4 @@
+import 'package:EVENTually/locations.dart';
 import 'package:EVENTually/summary.dart';
 import 'package:EVENTually/activities.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,7 +31,7 @@ class SingleEvent extends StatelessWidget {
                   children: <Widget>[
                     Summary(),
                     Activity(),
-                    Text('Location'),
+                    Location(),
                     Text('Dates')
                   ],
                 ))));
