@@ -22,16 +22,6 @@ class _UserRegistrationState extends State<UserRegistration> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 60,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
-                    //  child: Image.asset('assets/images/logo.png'),
-                    ),
-                  ),
-                  SizedBox(
                     height: 30,
                   ),
                   TextField(
