@@ -19,7 +19,8 @@ environment:
 dependencies:
 
   cloud_firestore:
-
+  flutter_multiselect: 0.0.1
+  date_range_picker: ^1.0.5
   flutter:
     sdk: flutter
 
