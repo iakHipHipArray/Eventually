@@ -1,6 +1,6 @@
-import 'package:EVENTually/Pages/location.dart';
+import 'package:EVENTually/Pages/login.dart';
 import 'package:flutter/material.dart';
-//rimport './Pages/registration.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -14,19 +14,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: UserRegistration(),
-     home: LocationGetter(),
+     home: LoginPage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('Home Page');
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(title: Text('EVENTually')),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
