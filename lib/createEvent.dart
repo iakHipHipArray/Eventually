@@ -1,5 +1,6 @@
 import 'package:EVENTually/main.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
@@ -11,7 +12,8 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
-  DateTime _dateTime;
+  DateTime _dateTime1;
+  DateTime _dateTime2;
 
   @override
   Widget build(BuildContext context) {
@@ -79,39 +81,41 @@ class _CreateEventState extends State<CreateEvent> {
             SizedBox(
               height: 15.0,
             ),
-            MaterialButton(
-                color: Colors.deepOrangeAccent,
-                onPressed: () async {
-                  final List<DateTime> picked =
-                      await DateRangePicker.showDatePicker(
-                          context: context,
-                          // initialFirstDate: new DateTime.now(),
-                          // initialLastDate:
-                          //     (new DateTime.now()).add(new Duration(days: 7)),
-                          firstDate: new DateTime(2015),
-                          lastDate: new DateTime(2020));
-                  if (picked != null && picked.length == 2) {
-                    print(picked);
-                  }
-                },
-                child: new Text("Pick date range")),
-            // Text(
-            //     _dateTime == null ? 'No dates selected' : _dateTime.toString()),
-            // RaisedButton(
-            //   child: Text('Pick a date'),
-            //   onPressed: () {
-            //     DateRangePicker.showDatePicker(
-            //             context: context,
-            //             initialFirstDate: DateTime.now(),
-            //             firstDate: DateTime(2020),
-            //             lastDate: DateTime(2030))
-            //         .then((date) {
-            //       setState(() {
-            //         _dateTime = date;
-            //       });
-            //     });
-            //   },
-            // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(_dateTime1 == null
+                    ? 'No dates selected'
+                    : 'Dates:  ' +
+                        new DateFormat('dd-MM-yyyy')
+                            .format(_dateTime1)
+                            .toString()),
+                Text(_dateTime2 == null
+                    ? ''
+                    : new DateFormat('dd-MM-yyyy')
+                        .format(_dateTime2)
+                        .toString())
+              ],
+            ),
+            RaisedButton(
+              child: Text('Pick a date'),
+              onPressed: () {
+                DateRangePicker.showDatePicker(
+                        context: context,
+                        initialFirstDate: DateTime.now(),
+                        initialLastDate:
+                            (new DateTime.now()).add(new Duration(days: 7)),
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2030))
+                    .then((date) {
+                  // print(date);
+                  setState(() {
+                    _dateTime1 = date[0];
+                    _dateTime2 = date[1];
+                  });
+                });
+              },
+            ),
             ButtonBar(
               children: <Widget>[
                 FlatButton(
