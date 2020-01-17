@@ -62,8 +62,30 @@ class _UserRegistrationState extends State<UserRegistration> {
                     keyboardType: TextInputType.text,
                     controller: null,
                     decoration: InputDecoration(
-                        labelText: "Full Name",
-                        hintText: "Full Name",
+                        labelText: "First Name",
+                        hintText: "First Name",
+                        labelStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: Colors.blue,
+                                style: BorderStyle.solid))),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  TextField(
+                    autofocus: false,
+                    obscureText: false,
+                    keyboardType: TextInputType.text,
+                    controller: null,
+                    decoration: InputDecoration(
+                        labelText: "Last Name",
+                        hintText: "Last Name",
                         labelStyle: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
