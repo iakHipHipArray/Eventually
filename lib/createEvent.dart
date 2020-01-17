@@ -12,15 +12,13 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
-  DateTime _dateTime1;
-  DateTime _dateTime2;
+  List dates = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
           children: <Widget>[
             SizedBox(height: 20.0),
             Column(
@@ -81,21 +79,14 @@ class _CreateEventState extends State<CreateEvent> {
             SizedBox(
               height: 15.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(_dateTime1 == null
-                    ? 'No dates selected'
-                    : 'Dates:  ' +
-                        new DateFormat('dd-MM-yyyy')
-                            .format(_dateTime1)
-                            .toString()),
-                Text(_dateTime2 == null
-                    ? ''
-                    : new DateFormat('dd-MM-yyyy')
-                        .format(_dateTime2)
-                        .toString())
-              ],
+            Expanded(
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemExtent: 80.0,
+                  itemCount: dates.length,
+                  itemBuilder: (context, index) =>
+                      _buildListItem(context, dates[index])),
             ),
             RaisedButton(
               child: Text('Pick a date'),
@@ -108,10 +99,15 @@ class _CreateEventState extends State<CreateEvent> {
                         firstDate: DateTime(2020),
                         lastDate: DateTime(2030))
                     .then((date) {
-                  // print(date);
                   setState(() {
-                    _dateTime1 = date[0];
-                    _dateTime2 = date[1];
+                    dates.insert(dates.length, {
+                      'start': new DateFormat('dd-MM-yyyy')
+                          .format(date[0])
+                          .toString(),
+                      'end': new DateFormat('dd-MM-yyyy')
+                          .format(date[1])
+                          .toString()
+                    });
                   });
                 });
               },
@@ -140,4 +136,13 @@ class _CreateEventState extends State<CreateEvent> {
       ),
     );
   }
+}
+
+Widget _buildListItem(BuildContext context, data) {
+  return Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[Text(data['start']), Text(data['end'])],
+    ),
+  );
 }
