@@ -1,5 +1,4 @@
 import 'package:EVENTually/Models/events_model.dart';
-//import 'package:EVENTually/Widgets/events_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -104,81 +103,109 @@ class _EventsPageState extends State<EventsPage> {
         itemBuilder: (BuildContext context, int index) {
           final eventsData = snapshot.data.documents[index].data;
           Events event = events[index];
-          return Container(
-            margin: EdgeInsets.all(10.0),
-            width: 210.0,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                Positioned(
-                  bottom: -0.0,
-                  child: Container(
-                    height: 120.0,
-                    width: 200.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            eventsData['eventName'],
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                          Text(
-                            eventsData['summary'],
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 6.0,
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Image(
-                          height: 180.0,
-                          width: 180.0,
-                          image: AssetImage(event.image),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
+          return eventCarouselInnerContainer(eventsData, context, event);
         },
       ),
     );
+  }
+
+  Container eventCarouselInnerContainer(Map<String, dynamic> eventsData, BuildContext context, Events event) {
+    return Container(
+          margin: EdgeInsets.all(10.0),
+          width: 210.0,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              Positioned(
+                bottom: -0.0,
+                child: eventCarouselTextBackground(eventsData, context),
+              ),
+              eventCarouselImageShadow(event),
+            ],
+          ),
+        );
+  }
+
+  Container eventCarouselTextBackground(Map<String, dynamic> eventsData, BuildContext context) {
+    return Container(
+                  height: 120.0,
+                  width: 200.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: eventCarouselTextOverlay(eventsData, context),
+                );
+  }
+
+  Padding eventCarouselTextOverlay(Map<String, dynamic> eventsData, BuildContext context) {
+    return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        eventCarouselEventName(eventsData, context),
+                        eventCarouselEventSummary(eventsData),
+                      ],
+                    ),
+                  );
+  }
+
+  Text eventCarouselEventName(Map<String, dynamic> eventsData, BuildContext context) {
+    return Text(
+                          eventsData['eventName'],
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
+                          ),
+                        );
+  }
+
+  Text eventCarouselEventSummary(Map<String, dynamic> eventsData) {
+    return Text(
+                          eventsData['summary'],
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        );
+  }
+
+  Container eventCarouselImageShadow(Events event) {
+    return Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                ),
+                child: eventCarouselImage(event),
+              );
+  }
+
+  Stack eventCarouselImage(Events event) {
+    return Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image(
+                        height: 180.0,
+                        width: 180.0,
+                        image: AssetImage(event.image),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                );
   }
 
   Padding mainHeader() {
