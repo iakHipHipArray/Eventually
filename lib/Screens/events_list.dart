@@ -1,4 +1,5 @@
-import 'package:EVENTually/Widgets/events_carousel.dart';
+import 'package:EVENTually/Models/events_model.dart';
+//import 'package:EVENTually/Widgets/events_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -118,84 +119,108 @@ class _EventsPageState extends State<EventsPage> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 20.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'Events List',
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => print('Pressing the See All button'),
-                        child: Text(
-                          'See All',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: _headericons
-                    .asMap()
-                    .entries
-                    .map(
-                      (MapEntry map) => _buildIcon(map.key),
-                    )
-                    .toList(),
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: _headericons
+                      .asMap()
+                      .entries
+                      .map(
+                        (MapEntry map) => _buildIcon(map.key),
+                      )
+                      .toList(),
+                ),
               ),
-              SizedBox(height: 20.0),
-              Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('All Events',
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          )),
-                      Text(
-                        'See All',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(height: 20.0),
-              EventsCarousel(),
               SizedBox(height: 20.0),
               Container(
-                height: 100.0,
-                width: double.infinity,
-                child: Text('Fixed Box'),
-                color: Colors.pink,
-              ),
-              Expanded(
+                height:400,
                 child: ListView.builder(
-                  itemExtent: 100.0,
+                  scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) =>
-                      _buildListItem(context, snapshot.data.documents[index]),
+                  itemBuilder: (context, index) {
+                     Events event = events[index];
+                    _buildListItem(context, snapshot.data.documents[index]);
+                    return Container(
+                      margin: EdgeInsets.all(10.0),
+                      width: 210.0,
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children: <Widget>[
+                          Positioned(
+                            bottom: 5.0,
+                        child: Container(
+                                height: 220.0,
+                                width: 200.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 50.0),
+                                  child: Column(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text('${event.eventName}',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 22.0,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 1.2,
+                                      ),
+                                      ),
+                                      SizedBox(height: 10.0),
+                                      Container(
+                                        width: 180.0,
+                                        child: Text(event.summary, style: TextStyle(
+                                          color: Colors.grey,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          ),
+                                      ),
+                                      ],
+                                  ),
+                                ),
+                                ),
+                          ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white, borderRadius: BorderRadius.circular(20.0),
+                          boxShadow: [BoxShadow(
+                            color: Colors.black26, 
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 6.0,
+                          ),
+                          ],
+                                ),
+                                child: Stack(
+                                  children: <Widget>[
+                              Hero(
+                                tag: event.image,
+                                                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                    child: Image(
+                                    height: 180.0,
+                                    width: 180.0,
+                                    image: AssetImage(event.image),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 10.0,
+                                bottom: 100.0,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                              )
+                            ]
+                                ),
+                              )
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
