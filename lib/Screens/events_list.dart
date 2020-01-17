@@ -50,43 +50,6 @@ class _EventsPageState extends State<EventsPage> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => print('Pressing the EVENTually Logo'),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 120.0),
-                child: Text(
-                  'EVENTually',
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: _headericons
-                  .asMap()
-                  .entries
-                  .map(
-                    (MapEntry map) => _buildIcon(map.key),
-                  )
-                  .toList(),
-            ),
-            SizedBox(height: 20.0),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +69,6 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    const imgindex = 1;
     return StreamBuilder<QuerySnapshot>(
       stream: getEvents(),
       builder: (context, snapshot) {
@@ -114,120 +76,137 @@ class _EventsPageState extends State<EventsPage> {
           return Text('Error ${snapshot.error}');
         }
         if (snapshot.hasData) {
-          print("Events ${snapshot.data.documents}");
-          return Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: _headericons
-                      .asMap()
-                      .entries
-                      .map(
-                        (MapEntry map) => _buildIcon(map.key),
-                      )
-                      .toList(),
-                ),
+          return Scaffold(
+            body: SafeArea(
+              child: ListView(
+                padding: EdgeInsets.symmetric(vertical: 30.0),
+                children: <Widget>[
+                  mainHeader(),
+                  headerNavigationBar(),
+                  subHeaderRow(context),
+                  eventCarousel(snapshot),
+                ],
               ),
-              SizedBox(height: 20.0),
-              Container(
-                height:400,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) {
-                     Events event = events[index];
-                    _buildListItem(context, snapshot.data.documents[index]);
-                    return Container(
-                      margin: EdgeInsets.all(10.0),
-                      width: 210.0,
-                      child: Stack(
-                        alignment: Alignment.topCenter,
-                        children: <Widget>[
-                          Positioned(
-                            bottom: 5.0,
-                        child: Container(
-                                height: 220.0,
-                                width: 200.0,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 50.0),
-                                  child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text('${event.eventName}',
-                                      style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 1.2,
-                                      ),
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Container(
-                                        width: 180.0,
-                                        child: Text(event.summary, style: TextStyle(
-                                          color: Colors.grey,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          ),
-                                      ),
-                                      ],
-                                  ),
-                                ),
-                                ),
-                          ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white, borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [BoxShadow(
-                            color: Colors.black26, 
-                            offset: Offset(0.0, 2.0),
-                            blurRadius: 6.0,
-                          ),
-                          ],
-                                ),
-                                child: Stack(
-                                  children: <Widget>[
-                              Hero(
-                                tag: event.image,
-                                                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                    child: Image(
-                                    height: 180.0,
-                                    width: 180.0,
-                                    image: AssetImage(event.image),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 10.0,
-                                bottom: 100.0,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                ),
-                              )
-                            ]
-                                ),
-                              )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           );
         }
         return CircularProgressIndicator();
       },
+    );
+  }
+
+  Container eventCarousel(AsyncSnapshot<QuerySnapshot> snapshot) {
+    return Container(
+      height: 300.0,
+      color: Colors.blue,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: snapshot.data.documents.length,
+        itemBuilder: (BuildContext context, int index) {
+          final eventsData = snapshot.data.documents[index].data;
+       //  print(eventsData);
+          return eventItem(eventsData);
+        },
+      ),
+    );
+  }
+
+  Container eventItem(Map<String, dynamic> eventsData) {
+    return Container(
+          margin: EdgeInsets.all(10.0),
+          width: 210.0,
+          color: Colors.red,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(10.0),
+                width: 210.0,
+                color: Colors.red,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                        height: 120.0,
+                        width: 200.0,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(eventsData['eventName'],
+                            style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
+                      ),
+                            ),
+                            Text(eventsData['summary'],
+                            ),
+                            ],
+                        ),
+                        ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+  }
+
+  Padding mainHeader() {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0, right: 120.0, bottom: 20.0),
+      child: Text(
+        'Events List',
+        style: TextStyle(
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Row subHeaderRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+          child: Text(
+            'Your Events',
+            style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => print('Pressing the See All Button'),
+          child: Text(
+            'See All',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.0,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row headerNavigationBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: _headericons
+          .asMap()
+          .entries
+          .map((MapEntry map) => _buildIcon(map.key))
+          .toList(),
     );
   }
 
@@ -265,31 +244,4 @@ class _EventsPageState extends State<EventsPage> {
       ],
     );
   }
-}
-
-Widget _buildListItem(BuildContext context, data) {
-  return Padding(
-    key: ValueKey(data.data['eventName']),
-    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-    child: Container(
-        child: Column(
-      children: <Widget>[
-        Text(data.data['eventName']),
-        SizedBox(height: 10),
-        Text(data.data['summary']),
-        SizedBox(height: 10),
-        Row(
-          children: <Widget>[
-            data.data['finalDate'] != null
-                ? Text('Date: $data.finalDate')
-                : Text('Date: TBC'),
-            Spacer(),
-            data.data['finalLocation'] != null
-                ? Text('Location: $data.finalDate')
-                : Text('Location: TBC')
-          ],
-        )
-      ],
-    )),
-  );
 }
