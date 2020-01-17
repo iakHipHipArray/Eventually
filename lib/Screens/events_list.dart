@@ -98,61 +98,87 @@ class _EventsPageState extends State<EventsPage> {
   Container eventCarousel(AsyncSnapshot<QuerySnapshot> snapshot) {
     return Container(
       height: 300.0,
-      color: Colors.blue,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: snapshot.data.documents.length,
         itemBuilder: (BuildContext context, int index) {
           final eventsData = snapshot.data.documents[index].data;
-       //  print(eventsData);
-          return eventItem(eventsData);
+          Events event = events[index];
+          return Container(
+            margin: EdgeInsets.all(10.0),
+            width: 210.0,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Positioned(
+                  bottom: -0.0,
+                  child: Container(
+                    height: 120.0,
+                    width: 200.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            eventsData['eventName'],
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          Text(
+                            eventsData['summary'],
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 6.0,
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image(
+                          height: 180.0,
+                          width: 180.0,
+                          image: AssetImage(event.image),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );
-  }
-
-  Container eventItem(Map<String, dynamic> eventsData) {
-    return Container(
-          margin: EdgeInsets.all(10.0),
-          width: 210.0,
-          color: Colors.red,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(10.0),
-                width: 210.0,
-                color: Colors.red,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                        height: 120.0,
-                        width: 200.0,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(eventsData['eventName'],
-                            style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.2,
-                      ),
-                            ),
-                            Text(eventsData['summary'],
-                            ),
-                            ],
-                        ),
-                        ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
   }
 
   Padding mainHeader() {
