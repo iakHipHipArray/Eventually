@@ -14,6 +14,12 @@ class _CreateEventState extends State<CreateEvent> {
   final _summaryController = TextEditingController();
   List dates = [];
 
+  delete(dynamic obj) {
+    setState(() {
+      dates.remove(obj);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,13 +142,20 @@ class _CreateEventState extends State<CreateEvent> {
       ),
     );
   }
-}
 
-Widget _buildListItem(BuildContext context, data) {
-  return Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[Text(data['start']), Text(data['end'])],
-    ),
-  );
+  Widget _buildListItem(BuildContext context, data) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(data['start']),
+          Text(data['end']),
+          RaisedButton(
+            child: Text('Remove'),
+            onPressed: () => delete(data),
+          ),
+        ],
+      ),
+    );
+  }
 }
