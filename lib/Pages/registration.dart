@@ -29,15 +29,15 @@ class _UserRegistrationState extends State<UserRegistration> {
   }
   
   createData(){
-  DocumentReference db= FireStore.instance.collection('users').document(username);
-  Map<String,dynamic> newUser={
+  DocumentReference db= Firestore.instance.collection('users').document(username);
+  Map<String, String> newUser={
     'firstName' :firstName,
     'lastName':lastName,
     'username':username,
   };
   print(newUser);
-  // db.setData(newUser).whenComplete(()=>{
-  //   print('new user added')});
+  db.setData(newUser).whenComplete(()=>{
+    print('new user added')});
   }
   
   @override
@@ -217,6 +217,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                         color: Colors.blue,
                         onPressed: () {
                           createData();
+                          //after adding new data, clear the form
                         },
                         child: const Text(
                           "Submit",
