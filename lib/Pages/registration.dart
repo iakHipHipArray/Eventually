@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:EVENTually/services/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:EVENTually/main.dart';
 
 class UserRegistration extends StatefulWidget {
   @override
@@ -22,10 +24,11 @@ class _UserRegistrationState extends State<UserRegistration> {
     'firstName' :_firstNameController.text,
     'lastName':_lastNameController.text,
     'username':_userNameController.text,
+    'email': _emailEditingController.text,
   };
   print(newUser);
-  db.setData(newUser).whenComplete(()=>{
-    print('new user added')});
+  db.setData(newUser).whenComplete((){
+    print('new user added');});
   }
   
   @override
@@ -200,11 +203,14 @@ class _UserRegistrationState extends State<UserRegistration> {
                         onPressed: () {
                           authHandler.handleSignUp(
                             _emailEditingController.text, _passwordEditingController.text)
-                            .whenComplete(()=>{
-                              _createData()
-                            });
-
-                          //after adding new data, clear the form
+                            .whenComplete(() {
+                              _createData();
+                            }).then((FirebaseUser user) {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new HomePage()));
+                    }).catchError((e) => print(e));
                         },
                         child: const Text(
                           "Submit",
