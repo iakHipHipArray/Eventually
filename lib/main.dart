@@ -1,4 +1,4 @@
-import 'package:EVENTually/Pages/login.dart';
+import 'package:EVENTually/Pages/profile.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: UserRegistration(),
-     home: LoginPage(),
+     home: Profile(),
     );
   }
 }
