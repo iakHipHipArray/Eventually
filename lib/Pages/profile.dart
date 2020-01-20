@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -10,7 +11,22 @@ class _ProfileState extends State<Profile> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Container( child: _buildBody(context),);
+  }
+}
+
+Widget _buildBody(BuildContext context){
+  return StreamBuilder(
+    stream: Firestore.instance.collection('users').document('bob742').snapshots(),
+    builder: (context, snapshot) {
+      final user= snapshot.data.data;
+      final firstName = user['firstName'];
+      final lastName =user['lastName'];
+      final username = user['username'];
+      if (!snapshot.hasData) return Text('LOADING');
+      print(user);
+      print(firstName);
+      return Scaffold(
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(FontAwesomeIcons.arrowLeft),
@@ -24,14 +40,16 @@ class _ProfileState extends State<Profile> {
 
           _buildCoverImage(context),
           _buildProfileImage(),
-          _buildFullName()
+          _buildFullName(firstName, lastName),
+         
         ],
       ),
     );
-  }
+
+    },
+    
+  );
 }
-
-
 
 
 
@@ -69,7 +87,7 @@ Widget _buildCoverImage(context) {
     );
   }
 
-    Widget _buildFullName() {
+    Widget _buildFullName(firstName, lastName) {
     TextStyle _nameTextStyle = TextStyle(
       fontFamily: 'Roboto',
       color: Colors.black,
@@ -78,7 +96,7 @@ Widget _buildCoverImage(context) {
     );
 
     return Text(
-      "Narae Kim",
+      '$firstName $lastName',
       style: _nameTextStyle,
     );
   }
