@@ -214,6 +214,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                           _userNameController.clear();
                           _emailEditingController.clear();
                           _passwordEditingController.clear();
+                          setState(() {
+                             _currentPosition=null;
+                          });
                          
                         },
                         child: const Text(
