@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
+import 'package:geolocator/geolocator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateEvent extends StatefulWidget {
   @override
@@ -13,12 +16,64 @@ class _CreateEventState extends State<CreateEvent> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
   List dates = [];
+  List _attendees;
+  Position _currentPosition;
+  String _currentAddress;
+  var id = new DateTime.now().millisecondsSinceEpoch.toString();
 
   delete(dynamic obj) {
     setState(() {
       dates.remove(obj);
     });
   }
+
+  getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+      _getAddressFromLatLng();
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress = "${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  postLocation() {
+    Firestore.instance.collection('locations').document(id).setData({
+      'location1': {
+        'location':
+            new GeoPoint(_currentPosition.latitude, _currentPosition.longitude),
+        'votes': 0
+      }
+    });
+  }
+
+  postEventDetails() {
+    Firestore.instance.collection('events').document(id).setData({
+      'eventName': _titleController.text,
+      'summary': _summaryController.text,
+      'attendees': _attendees
+    });
+  }
+
+  postDates() {}
 
   @override
   Widget build(BuildContext context) {
@@ -61,19 +116,19 @@ class _CreateEventState extends State<CreateEvent> {
               dataSource: [
                 {
                   "display": "Ryan",
-                  "value": 1,
+                  "value": "Ryan",
                 },
                 {
                   "display": "Robin",
-                  "value": 2,
+                  "value": "Robin",
                 },
                 {
                   "display": "Narae",
-                  "value": 3,
+                  "value": "Narae",
                 },
                 {
                   "display": "Inshirah",
-                  "value": 4,
+                  "value": "Inshirah",
                 }
               ],
               textField: 'display',
@@ -81,9 +136,25 @@ class _CreateEventState extends State<CreateEvent> {
               filterable: true,
               required: true,
               value: null,
+              change: (values) {
+                setState(() {
+                  _attendees = values;
+                });
+              },
             ),
             SizedBox(
               height: 15.0,
+            ),
+            Column(
+              children: <Widget>[
+                if (_currentPosition != null) Text(_currentAddress),
+                RaisedButton(
+                  child: Text('Get my Location'),
+                  onPressed: () {
+                    getCurrentLocation();
+                  },
+                ),
+              ],
             ),
             Expanded(
               child: ListView.builder(
@@ -123,16 +194,14 @@ class _CreateEventState extends State<CreateEvent> {
                 FlatButton(
                   child: Text('CANCEL'),
                   onPressed: () {
-                    _titleController.clear();
+                    //navigate back
                   },
                 ),
                 RaisedButton(
                   child: Text('CREATE'),
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return MyHomePage();
-                    }));
+                    postLocation();
+                    postEventDetails();
                   },
                 )
               ],
