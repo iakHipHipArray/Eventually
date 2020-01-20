@@ -17,6 +17,7 @@ class _CreateEventState extends State<CreateEvent> {
   final _summaryController = TextEditingController();
   List dates = [];
   List _attendees;
+  List _friends = [];
   Position _currentPosition;
   String _currentAddress;
   var id = new DateTime.now().millisecondsSinceEpoch.toString();
@@ -27,8 +28,21 @@ class _CreateEventState extends State<CreateEvent> {
     });
   }
 
+  getFriends() {
+    Firestore.instance
+        .collection('friends')
+        .document('ryan1214')
+        .get()
+        .then((friends) {
+      friends.data.forEach((k, v) => {
+            _friends.add({'display': v, 'value': k})
+          });
+    });
+  }
+
   getCurrentLocation() {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
@@ -91,6 +105,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
+    getFriends();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -127,24 +142,7 @@ class _CreateEventState extends State<CreateEvent> {
                 }
               },
               errorText: 'Please select one or more friends(s)',
-              dataSource: [
-                {
-                  "display": "Ryan",
-                  "value": "ryan1214",
-                },
-                {
-                  "display": "Robin",
-                  "value": "rmpillar",
-                },
-                {
-                  "display": "Narae",
-                  "value": "rae77",
-                },
-                {
-                  "display": "Inshirah",
-                  "value": "bob742",
-                }
-              ],
+              dataSource: _friends,
               textField: 'display',
               valueField: 'value',
               filterable: true,
