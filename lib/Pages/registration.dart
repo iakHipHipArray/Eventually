@@ -10,34 +10,18 @@ class UserRegistration extends StatefulWidget {
 class _UserRegistrationState extends State<UserRegistration> {
   final _emailEditingController = TextEditingController();
   final _passwordEditingController = TextEditingController();
-    final authHandler = new Auth();
+  final _firstNameController= TextEditingController();
+  final _lastNameController= TextEditingController();
+  final _userNameController= TextEditingController();
+  final authHandler = new Auth();
 
-  String username, firstName, lastName, email, password;
-  
-  getUserName(username){
-    this.username=username;
-  }
 
-  getFirstName(firstName){
-    this.firstName=firstName;
-  }
-  getLastName(lastName){
-    this.lastName=lastName;
-  }
-  
-  getEmail(email){
-    this.email=email;
-  }
-  getPassword(password){
-    this.password=password;
-  }
-  
   _createData(){
-  DocumentReference db= Firestore.instance.collection('users').document(username);
+  DocumentReference db= Firestore.instance.collection('users').document(_userNameController.text);
   Map<String, String> newUser={
-    'firstName' :firstName,
-    'lastName':lastName,
-    'username':username,
+    'firstName' :_firstNameController.text,
+    'lastName':_lastNameController.text,
+    'username':_userNameController.text,
   };
   print(newUser);
   db.setData(newUser).whenComplete(()=>{
@@ -63,7 +47,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.text,
-                    controller: null,
+                    controller: _userNameController,
                     decoration: InputDecoration(
                         labelText: "Username",
                         hintText: "Username",
@@ -77,9 +61,6 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
-                    onChanged: (String username){
-                      getUserName(username);
-                    },
                   ),
                   SizedBox(
                     height: 30,
@@ -88,7 +69,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.text,
-                    controller: null,
+                    controller: _firstNameController,
                     decoration: InputDecoration(
                         labelText: "First Name",
                         hintText: "First Name",
@@ -102,9 +83,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
-                    onChanged: (String firstName){
-                      getFirstName(firstName);
-                    },
+                    
                   ),
                   SizedBox(
                     height: 30,
@@ -113,7 +92,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.text,
-                    controller: null,
+                    controller: _lastNameController,
                     decoration: InputDecoration(
                         labelText: "Last Name",
                         hintText: "Last Name",
@@ -127,9 +106,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
-                    onChanged: (String lastName){
-                      getLastName(lastName);
-                    },
+                  
                   ),
                   SizedBox(
                     height: 30,
@@ -174,9 +151,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
-                    onChanged: (String email){
-                      getEmail(email);
-                    },
+                    
                   ),
                   SizedBox(
                     height: 30,
@@ -199,9 +174,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
-                    onChanged: (String password){
-                      getPassword(password);
-                    },
+                    
                   ),
                   Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -209,7 +182,12 @@ class _UserRegistrationState extends State<UserRegistration> {
                     RaisedButton(
                         color: Colors.blue,
                         onPressed: () {
-                         //function to reset the state
+                          _firstNameController.clear();
+                          _lastNameController.clear();
+                          _userNameController.clear();
+                          _emailEditingController.clear();
+                          _passwordEditingController.clear();
+                         
                         },
                         child: const Text(
                           "Cancel",
