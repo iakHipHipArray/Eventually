@@ -8,7 +8,26 @@ class UserRegistration extends StatefulWidget {
 
 class _UserRegistrationState extends State<UserRegistration> {
   TextEditingController emailEditingContrller = TextEditingController();
+  String username, firstName, lastName, email, password;
+  
+  getUserName(username){
+    this.username=username;
+  }
 
+  getFirstName(firstName){
+    this.firstName=firstName;
+  }
+  getLastName(lastName){
+    this.lastName=lastName;
+  }
+  
+  getEmail(email){
+    this.email=email;
+  }
+  getPassword(password){
+    this.password=password;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +61,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
+                    onChanged: (String username){
+                      getUserName(username);
+                    },
                   ),
                   SizedBox(
                     height: 30,
@@ -64,6 +86,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
+                    onChanged: (String firstName){
+                      getFirstName(firstName);
+                    },
                   ),
                   SizedBox(
                     height: 30,
@@ -86,6 +111,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
+                    onChanged: (String lastName){
+                      getLastName(lastName);
+                    },
                   ),
                   SizedBox(
                     height: 30,
@@ -130,6 +158,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
+                    onChanged: (String email){
+                      getEmail(email);
+                    },
                   ),
                   SizedBox(
                     height: 30,
@@ -152,6 +183,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 width: 1,
                                 color: Colors.blue,
                                 style: BorderStyle.solid))),
+                    onChanged: (String password){
+                      getPassword(password);
+                    },
                   ),
                   SizedBox(
                     height: 50,
