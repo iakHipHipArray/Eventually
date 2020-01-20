@@ -20,7 +20,7 @@ class Auth {
     return user;
   }
 
-  Future<FirebaseUser> handleSignUp(email, password) async {
+  Future<FirebaseUser> handleSignUp(String email, String password) async {
     AuthResult result = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     final FirebaseUser user = result.user;

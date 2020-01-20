@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:EVENTually/services/authentication.dart';
 
 class UserRegistration extends StatefulWidget {
   @override
@@ -7,7 +8,10 @@ class UserRegistration extends StatefulWidget {
 }
 
 class _UserRegistrationState extends State<UserRegistration> {
-  TextEditingController emailEditingContrller = TextEditingController();
+  final _emailEditingController = TextEditingController();
+  final _passwordEditingController = TextEditingController();
+    final authHandler = new Auth();
+
   String username, firstName, lastName, email, password;
   
   getUserName(username){
@@ -28,7 +32,7 @@ class _UserRegistrationState extends State<UserRegistration> {
     this.password=password;
   }
   
-  createData(){
+  _createData(){
   DocumentReference db= Firestore.instance.collection('users').document(username);
   Map<String, String> newUser={
     'firstName' :firstName,
@@ -156,7 +160,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailEditingContrller,
+                    controller: _emailEditingController,
                     decoration: InputDecoration(
                         labelText: "Email",
                         hintText: "Email",
@@ -181,7 +185,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     autofocus: false,
                     obscureText: true,
                     keyboardType: TextInputType.text,
-                    controller: emailEditingContrller,
+                    controller: _passwordEditingController,
                     decoration: InputDecoration(
                         labelText: "Password",
                         hintText: "Password",
@@ -216,7 +220,12 @@ class _UserRegistrationState extends State<UserRegistration> {
                     RaisedButton(
                         color: Colors.blue,
                         onPressed: () {
-                          createData();
+                          authHandler.handleSignUp(
+                            _emailEditingController.text, _passwordEditingController.text)
+                            .whenComplete(()=>{
+                              _createData()
+                            });
+
                           //after adding new data, clear the form
                         },
                         child: const Text(
