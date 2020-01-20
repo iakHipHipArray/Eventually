@@ -1,30 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+var eventDetails;
+
+getEventInfo() {
+  Firestore.instance
+      .collection('events')
+      .document('event1') // hardcoded atm
+      .get()
+      .then((event) => eventDetails = event);
+}
+
 class Summary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    getEventInfo();
     return Container(
         child: Column(
       children: <Widget>[
         Text(
-          'Event Overview',
+          eventDetails['eventName'],
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
         ),
-        Card(
-          child: Column(children: <Widget>[
-            Text('My event'),
-            Text(
-                'asdfgfdsfgfdsdfg dfghfdfsg jdfkg dfkg jdfkjgh ekjfhg djfhg dkjfgh dfjh '),
-          ]),
+        Text(eventDetails['summary']),
+        RaisedButton(
+          child: Text('Confirm Event Details'),
+          onPressed: () {}, // add functionality
         ),
         Image(
           image: NetworkImage(
-              'https://ichef.bbci.co.uk/news/1024/branded_news/E34F/production/_104419185_bopper.jpg'),
+              'https://ichef.bbci.co.uk/news/1024/branded_news/E34F/production/_104419185_bopper.jpg'), //Insert Map
         ),
         Card(
           child: Row(
-            children: <Widget>[Icon(Icons.calendar_today), Text('Date: TBC')],
+            children: <Widget>[
+              Icon(Icons.calendar_today),
+              eventDetails['date'] == null
+                  ? Text('Date: TBC')
+                  : Text(eventDetails['date'])
+            ],
           ),
         ),
         Expanded(
