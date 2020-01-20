@@ -17,7 +17,7 @@ class _ProfileState extends State<Profile> {
 
 Widget _buildBody(BuildContext context){
   return StreamBuilder(
-    stream: Firestore.instance.collection('users').document('bob742').snapshots(),
+    stream: Firestore.instance.collection('users').document('rae77').snapshots(),
     builder: (context, snapshot) {
       final user= snapshot.data.data;
       final firstName = user['firstName'];
@@ -40,7 +40,7 @@ Widget _buildBody(BuildContext context){
 
           _buildCoverImage(context),
           _buildProfileImage(),
-          _buildFullName(firstName, lastName),
+          _buildInfo(context, firstName, lastName, username),
          
         ],
       ),
@@ -87,7 +87,7 @@ Widget _buildCoverImage(context) {
     );
   }
 
-    Widget _buildFullName(firstName, lastName) {
+    Widget _buildInfo(context, firstName, lastName, username) {
     TextStyle _nameTextStyle = TextStyle(
       fontFamily: 'Roboto',
       color: Colors.black,
@@ -95,9 +95,16 @@ Widget _buildCoverImage(context) {
       fontWeight: FontWeight.w700,
     );
 
-    return Text(
-      '$firstName $lastName',
-      style: _nameTextStyle,
-    );
+    return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          
+          children: <Widget>[Text(
+           '$firstName $lastName',
+           style: _nameTextStyle,
+           ),Text(
+          '$username',
+         style: _nameTextStyle,
+    )],));
   }
 
