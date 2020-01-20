@@ -81,37 +81,84 @@ class MapState extends State<Map> {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: zoomVal)));
   }
 
-Widget _buildBody(BuildContext context) {
-  
-  return StreamBuilder(
+  Widget _buildBody(BuildContext context) {
+    return StreamBuilder(
       stream: Firestore.instance
           .collection('attendees')
           .document('event1')
           .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return Text('...Loading');
-        var markers = <MarkerId, Marker>{};
-        final data = snapshot.data.data;
-        final keys = data.keys.toList();
-        for (var i = 0; i < keys.length; i++) {
-          final MarkerId markerId = MarkerId(data[keys[i]]['ID'].toString());
-          final Marker marker = Marker(
-            markerId: markerId,
-            position: LatLng(data[keys[i]]['location'].latitude, data[keys[i]]['location'].longitude)
-          );
-          markers[markerId] = marker;
-        }
-
-        return GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-         markers: Set<Marker>.of(markers.values)
-         
-      );
-      });
+      builder: (context, attendees) {
+        if (!attendees.hasData) return Text('...Loading');
+        return StreamBuilder(
+          stream: Firestore.instance
+              .collection('locations')
+              .document('event1')
+              .snapshots(),
+          builder: (context, locations) {
+            final map = BuildMap();
+            final markers = map.makeMarkers(locations,attendees);
+            return map.makeMap(_controller, markers);
+          }
+        );
+      }
+    );
+  }
 }
 
+class BuildMap {
+  makeMarkers(locations,attendees) {
+    var markers = <MarkerId, Marker>{};
+    final locationsData = locations.data.data;
+    final locationsKeys = locationsData.keys.toList();
+    for (var i = 0; i < locationsKeys.length; i++) {
+      final MarkerId markerId = MarkerId(i.toString());
+      final Marker marker = Marker(
+        markerId: markerId,
+        icon: BitmapDescriptor.defaultMarkerWithHue(350),
+        position: LatLng(locationsData[locationsKeys[i]]['location'].latitude, locationsData[locationsKeys[i]]['location'].longitude)
+      );
+      markers[markerId] = marker;
+    }
+    var allLats = [];
+    var allLongs = [];
+    final attendeesData = attendees.data.data;
+    final attendeesKeys = attendeesData.keys.toList();
+    for (var i = 0; i < attendeesKeys.length; i++) {
+      final MarkerId markerId = MarkerId((i + locationsKeys.length).toString());
+      final Marker marker = Marker(
+        markerId: markerId,
+        icon: BitmapDescriptor.defaultMarkerWithHue(200),
+        position: LatLng(attendeesData[attendeesKeys[i]]['location'].latitude, attendeesData[attendeesKeys[i]]['location'].longitude),
+        infoWindow: InfoWindow(title:attendeesData[attendeesKeys[i]]['name'])
+      );
+      allLats.add(attendeesData[attendeesKeys[i]]['location'].latitude);
+      allLongs.add(attendeesData[attendeesKeys[i]]['location'].longitude);
+      markers[markerId] = marker;
+    }
+      final centre = findCentre(allLats,allLongs);
+      postCentre(centre,locationsData['centre']['votes']);
+    return markers;
+  }
+
+  makeMap(_controller, markers) {
+    return GoogleMap(
+      mapType: MapType.normal,
+      initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
+        markers: Set<Marker>.of(markers.values)
+    );
+  }
+
+  findCentre(lat,long) {
+    final centreLat = lat.reduce((a, b) => a + b) / lat.length;
+    final centreLong = long.reduce((a, b) => a + b) / long.length;
+    return GeoPoint(centreLat,centreLong);
+  }
+
+  void postCentre(centre,votes) async {
+    final data = {'centre':{'location':centre,'votes':votes}};
+    await Firestore.instance.collection('locations').document('event1').updateData(data);
+  }
 }
