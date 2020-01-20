@@ -1,14 +1,16 @@
-import 'package:EVENTually/Screens/events_list.dart';
+import 'package:EVENTually/router.dart';
+import 'package:EVENTually/routing_constants.dart';
 import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart'
+
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: HomePageRoute,
+      onGenerateRoute: Router.generateRoute,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
        theme: ThemeData(
@@ -16,7 +18,6 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xFFD8ECF1),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
-      home: MyHomePage(title: 'EVENTually'),
     );
   }
 }
@@ -36,13 +37,11 @@ class MyHomePage extends StatelessWidget {
             RaisedButton(
               child: Text('press me'),
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return EventsPage();
-                }));
+                Navigator.of(context).pushNamed('/events');
               },
             )
           ],
         )));
   }
 }
+
