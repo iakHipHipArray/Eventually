@@ -69,7 +69,8 @@ class _CreateEventState extends State<CreateEvent> {
     Firestore.instance.collection('events').document(id).setData({
       'eventName': _titleController.text,
       'summary': _summaryController.text,
-      'attendees': _attendees
+      'attendees': _attendees,
+      'ID': id
     });
   }
 
@@ -129,19 +130,19 @@ class _CreateEventState extends State<CreateEvent> {
               dataSource: [
                 {
                   "display": "Ryan",
-                  "value": "Ryan",
+                  "value": "ryan1214",
                 },
                 {
                   "display": "Robin",
-                  "value": "Robin",
+                  "value": "rmpillar",
                 },
                 {
                   "display": "Narae",
-                  "value": "Narae",
+                  "value": "rae77",
                 },
                 {
                   "display": "Inshirah",
-                  "value": "Inshirah",
+                  "value": "bob742",
                 }
               ],
               textField: 'display',
