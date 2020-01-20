@@ -73,7 +73,20 @@ class _CreateEventState extends State<CreateEvent> {
     });
   }
 
-  postDates() {}
+  postDates() {
+    Firestore.instance.collection('dates').document(id).setData({
+      'date1': {'start': dates[0]['start'], 'end': dates[0]['end'], 'votes': 1}
+    });
+    for (var i = 1; i < dates.length; i++) {
+      Firestore.instance.collection('dates').document(id).updateData({
+        'date${i + 1}': {
+          'start': dates[i]['start'],
+          'end': dates[i]['end'],
+          'votes': 1
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,6 +215,8 @@ class _CreateEventState extends State<CreateEvent> {
                   onPressed: () {
                     postLocation();
                     postEventDetails();
+                    postDates();
+                    //navigate to singleEvent.dart
                   },
                 )
               ],
