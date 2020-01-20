@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:EVENTually/services/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:EVENTually/main.dart';
+import 'package:geolocator/geolocator.dart';
 
 class UserRegistration extends StatefulWidget {
   @override
@@ -16,25 +17,56 @@ class _UserRegistrationState extends State<UserRegistration> {
   final _lastNameController= TextEditingController();
   final _userNameController= TextEditingController();
   final authHandler = new Auth();
+  Position _currentPosition;
+  String _currentAddress;
 
+  
 
   _createData(){
   DocumentReference db= Firestore.instance.collection('users').document(_userNameController.text);
-  Map<String, String> newUser={
+  Map<String, dynamic> newUser={
     'firstName' :_firstNameController.text,
     'lastName':_lastNameController.text,
     'username':_userNameController.text,
     'email': _emailEditingController.text,
+    'location': new GeoPoint(_currentPosition.latitude, _currentPosition.longitude),
   };
   print(newUser);
   db.setData(newUser).whenComplete((){
     print('new user added');});
   }
+
+  getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+      _getAddressFromLatLng();
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress = "${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -114,25 +146,17 @@ class _UserRegistrationState extends State<UserRegistration> {
                   SizedBox(
                     height: 30,
                   ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: false,
-                    keyboardType: TextInputType.text,
-                    controller: null,
-                    decoration: InputDecoration(
-                        labelText: "Location",
-                        hintText: "Location",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid))),
-                  ),
+                  Column(
+                    children: <Widget>[
+                      _currentPosition != null? Text(_currentAddress):Text(''),
+                        RaisedButton(
+                          child: Text('Get my Location'),
+                          onPressed: () {
+                          getCurrentLocation();
+                          },
+                         ),
+                    ],
+                   ),                  
                   SizedBox(
                     height: 30,
                   ),
