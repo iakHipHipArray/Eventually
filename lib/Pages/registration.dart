@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRegistration extends StatefulWidget {
   @override
@@ -26,6 +26,18 @@ class _UserRegistrationState extends State<UserRegistration> {
   }
   getPassword(password){
     this.password=password;
+  }
+  
+  createData(){
+  DocumentReference db= FireStore.instance.collection('users').document(username);
+  Map<String,dynamic> newUser={
+    'firstName' :firstName,
+    'lastName':lastName,
+    'username':username,
+  };
+  print(newUser);
+  // db.setData(newUser).whenComplete(()=>{
+  //   print('new user added')});
   }
   
   @override
@@ -187,21 +199,32 @@ class _UserRegistrationState extends State<UserRegistration> {
                       getPassword(password);
                     },
                   ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  ButtonTheme(
-                    //elevation: 4,
-                    //color: Colors.blue,
-                    minWidth: double.infinity,
-                    child: MaterialButton(
-                      onPressed: () => {},
-                      textColor: Colors.white,
-                      color: Colors.blue,
-                      height: 50,
-                      child: Text("LOGIN"),
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[                    
+                    RaisedButton(
+                        color: Colors.blue,
+                        onPressed: () {
+                         //function to reset the state
+                        },
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white,
+                        )),
                     ),
-                  )
+                    
+                    RaisedButton(
+                        color: Colors.blue,
+                        onPressed: () {
+                          createData();
+                        },
+                        child: const Text(
+                          "Submit",
+                          style: TextStyle(color: Colors.white,
+                        ))
+                    )
+                  ],
+                )
                 ],
               ),
             ),
