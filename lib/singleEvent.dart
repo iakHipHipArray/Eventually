@@ -1,3 +1,4 @@
+import 'package:EVENTually/dates.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class SingleEvent extends StatelessWidget {
                     Text('Summary'),
                     Text('Activities'),
                     Text('Location'),
-                    Text('Dates')
+                    DatesTab()
                   ],
                 ))));
   }
