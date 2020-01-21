@@ -103,6 +103,21 @@ class _CreateEventState extends State<CreateEvent> {
     }
   }
 
+  sendNotifications() {
+    for (var i = 0; i < _attendees.length; i++) {
+      Firestore.instance
+          .collection('notifications')
+          .document(_attendees[i])
+          .updateData({
+        '$id': {
+          'body':
+              'You have been invited to an event by Ryan1214', // change to say who made event (hardcoded atm)
+          'receivedAt': new DateTime.now().millisecondsSinceEpoch
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (count < 1) {
@@ -219,6 +234,7 @@ class _CreateEventState extends State<CreateEvent> {
                     postLocation();
                     postEventDetails();
                     postDates();
+                    sendNotifications();
                     //navigate to singleEvent.dart
                   },
                 )
