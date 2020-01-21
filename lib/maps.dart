@@ -23,19 +23,6 @@ class MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(FontAwesomeIcons.arrowLeft),
-            onPressed: () {
-            }),
-        title: Text("EVENTually"),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(FontAwesomeIcons.search),
-              onPressed: () {
-              }),
-        ],
-      ),
       body: Stack(
         children: <Widget>[
           _buildBody(context),
