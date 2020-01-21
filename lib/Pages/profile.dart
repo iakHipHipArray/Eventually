@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
@@ -10,6 +11,14 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  File _image;
+  Future getImage() async{
+    var image= await ImagePicker.pickImage(source: ImageSource.camera);
+    setState((){
+      _image= image;
+      print('Image Path $_image');
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -36,14 +45,11 @@ Widget _buildBody(BuildContext context){
       final lastName =user['lastName'];
       final username = user['username'];
       if (!snapshot.hasData) return Text('LOADING');
-      print(user);
-      print(firstName);
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-
-          _buildCoverImage(context),
-          _buildProfileImage(),
+          _buildProfileImage(context),
           _buildInfo(context, firstName, lastName, username),
          
         ],
@@ -57,58 +63,148 @@ Widget _buildBody(BuildContext context){
 
 
 
-Widget _buildCoverImage(context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 2.6,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage('https://cdn-images-1.medium.com/max/800/0*qZS6sL0kKw5DVXPn.jpg'),
-          fit: BoxFit.cover,
-        ),
-      ),
+Widget _buildProfileImage(context) {
+ 
+
+    return Column(
+     
+      children: <Widget>[
+               SizedBox(height:50.0),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: CircleAvatar(
+                      
+                      radius: 100,
+                      backgroundColor: Colors.blue,
+                      child: ClipOval(
+                        child: new SizedBox(
+                          width: 180.0,
+                          height: 180.0,
+                          child:Image.network(
+                            'https://ichef.bbci.co.uk/news/660/cpsprodpb/12A6D/production/_110579367_finalpeople_immigration-nc.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 60.0),
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.camera,
+                        size: 30.0,
+                      ),
+                      onPressed: () {
+                        getImage();
+                      },
+                    ),
+                  ),
+                ],
+              )],
     );
   }
 
- Widget _buildProfileImage() {
-    return Center(
-      child: Container(
-        width: 140.0,
-        height: 140.0,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage('https://ichef.bbci.co.uk/news/660/cpsprodpb/12A6D/production/_110579367_finalpeople_immigration-nc.png'),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(80.0),
-          border: Border.all(
-            color: Colors.white,
-            width: 10.0,
-          ),
-        ),
-        
-      ),
-    );
-  }
 
     Widget _buildInfo(context, firstName, lastName, username) {
-    TextStyle _nameTextStyle = TextStyle(
-      fontFamily: 'Roboto',
-      color: Colors.black,
-      fontSize: 28.0,
-      fontWeight: FontWeight.w700,
-    );
-
     return Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           
-          children: <Widget>[Text(
-           '$firstName $lastName',
-           style: _nameTextStyle,
-           ),Text(
-          '$username',
-         style: _nameTextStyle,
-    )],));
+          children: <Widget>[
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('user ID',
+                                style: TextStyle(
+                                    color: Colors.blueGrey, fontSize: 18.0)),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('$username',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('Name',
+                                style: TextStyle(
+                                    color: Colors.blueGrey, fontSize: 18.0)),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('$firstName $lastName',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('location',
+                                style: TextStyle(
+                                    color: Colors.blueGrey, fontSize: 18.0)),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('This will be location',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+           ],)
+
+           );
   }
 
