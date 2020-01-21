@@ -8,6 +8,7 @@ class NotificationsPage extends StatefulWidget {
 
 class _NotificationsPageState extends State<NotificationsPage> {
   List _notifications;
+  var count = 0;
 
   getNotifications() {
     Firestore.instance
@@ -16,15 +17,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
         .get()
         .then((notifications) => {
               setState(() {
-                print(notifications);
+                print(notifications.data);
                 _notifications = ['hello'];
-              })
+              }),
+              count++
             });
   }
 
   @override
   Widget build(BuildContext context) {
-    getNotifications();
+    if (count < 0) {
+      getNotifications();
+    }
+
     return Column(
       children: <Widget>[
         Expanded(
