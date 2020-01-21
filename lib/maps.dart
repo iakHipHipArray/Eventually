@@ -1,6 +1,8 @@
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -129,6 +131,9 @@ class BuildMap {
 
   makeMap(_controller, markers) {
     return GoogleMap(
+      gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+      new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
+   ].toSet(),
       mapType: MapType.normal,
       initialCameraPosition:  CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
       onMapCreated: (GoogleMapController controller) {
