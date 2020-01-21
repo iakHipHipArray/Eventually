@@ -13,13 +13,23 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   File _image;
   Future getImage() async{
-    var image= await ImagePicker.pickImage(source: ImageSource.camera);
+    var image= await ImagePicker.pickImage(source: ImageSource.gallery);
     setState((){
       _image= image;
       print('Image Path $_image');
     });
   }
   
+    Future uploadPic(BuildContext context) async{
+      String fileName = basename(_image.path);
+       StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+       StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+       StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+       setState(() {
+          print("Profile Picture uploaded");
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+       });
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,11 +44,11 @@ class _ProfileState extends State<Profile> {
        body:_buildBody(context)
     );  
   }
-}
+
 
 Widget _buildBody(BuildContext context){
   return StreamBuilder(
-    stream: Firestore.instance.collection('users').document('rae77').snapshots(),
+    stream: Firestore.instance.collection('users').document('rmpillar').snapshots(),
     builder: (context, snapshot) {
       final user= snapshot.data.data;
       final firstName = user['firstName'];
@@ -64,10 +74,7 @@ Widget _buildBody(BuildContext context){
 
 
 Widget _buildProfileImage(context) {
- 
-
-    return Column(
-     
+    return Column(     
       children: <Widget>[
                SizedBox(height:50.0),
                Row(
@@ -84,8 +91,8 @@ Widget _buildProfileImage(context) {
                         child: new SizedBox(
                           width: 180.0,
                           height: 180.0,
-                          child:Image.network(
-                            'https://ichef.bbci.co.uk/news/660/cpsprodpb/12A6D/production/_110579367_finalpeople_immigration-nc.png',
+                          child:(_image!=null)?Image.file(_image,fit:BoxFit.fill,):Image.network(
+                            'http://www.racemph.com/wp-content/uploads/2016/09/profile-image-placeholder.png',
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -100,7 +107,7 @@ Widget _buildProfileImage(context) {
                         size: 30.0,
                       ),
                       onPressed: () {
-                        getImage();
+                         getImage().whenComplete((){uploadPic(context);});
                       },
                     ),
                   ),
@@ -208,3 +215,4 @@ Widget _buildProfileImage(context) {
            );
   }
 
+}
