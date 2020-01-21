@@ -117,7 +117,7 @@ class _EventsPageState extends State<EventsPage> {
 
   Container eventCarouselInnerContainer(
       Map<String, dynamic> eventsData, BuildContext context, Events event) {
-    print('in events_list -> ${eventsData['ID']}');
+   // print('in events_list -> ${eventsData['ID']}');
     return Container(
       margin: EdgeInsets.all(10.0),
       width: 210.0,

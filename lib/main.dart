@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       initialRoute: HomePageRoute,
       onGenerateRoute: Router.generateRoute,
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'EVENTually',
        theme: ThemeData(
         primaryColor: Color(0xFF3EBACE),
         accentColor: Color(0xFFD8ECF1),
