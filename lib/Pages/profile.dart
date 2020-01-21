@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
@@ -11,7 +13,17 @@ class _ProfileState extends State<Profile> {
   
   @override
   Widget build(BuildContext context) {
-    return Container( child: _buildBody(context),);
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(FontAwesomeIcons.arrowLeft),
+            onPressed: () {
+              //
+            }),
+        title: Text("User Profile"),
+      ),
+       body:_buildBody(context)
+    );  
   }
 }
 
@@ -26,16 +38,8 @@ Widget _buildBody(BuildContext context){
       if (!snapshot.hasData) return Text('LOADING');
       print(user);
       print(firstName);
-      return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(FontAwesomeIcons.arrowLeft),
-            onPressed: () {
-              //
-            }),
-        title: Text("User Profile"),
-      ),
-      body: Stack(
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
 
           _buildCoverImage(context),
@@ -43,8 +47,8 @@ Widget _buildBody(BuildContext context){
           _buildInfo(context, firstName, lastName, username),
          
         ],
-      ),
-    );
+      );
+    
 
     },
     
