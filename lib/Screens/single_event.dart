@@ -1,4 +1,5 @@
 import 'package:EVENTually/dates.dart';
+import 'package:EVENTually/maps.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -69,7 +70,7 @@ class SingleEvent extends StatelessWidget {
                       '$summary',
                     ),
                     Text('Activities'),
-                    Text('Location'),
+                    Map(),
                     DatesTab(),
                   ],
                 ),

@@ -2,7 +2,6 @@ import 'package:EVENTually/router.dart';
 import 'package:EVENTually/routing_constants.dart';
 import 'package:flutter/material.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
