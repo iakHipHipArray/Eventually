@@ -37,11 +37,13 @@ class MyHomePage extends StatelessWidget {
             RaisedButton(
               child: Text('press me'),
               onPressed: () {
-                Navigator.of(context).pushNamed('/events');
+                Navigator.of(context).pushNamed(EventsPageRoute, arguments: 'Events List');
               },
-            )
+            ),
           ],
-        )));
+        ),
+        ),
+        );
   }
 }
 

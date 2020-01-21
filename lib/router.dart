@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-
+    print('Router Args -> $args');
     switch (settings.name) {
-      case HomePageRoute: 
-        return MaterialPageRoute(builder: (_) => MyHomePage(title: 'EVENTually'));
+      case HomePageRoute:
+        return MaterialPageRoute(
+            builder: (_) => MyHomePage(title: 'EVENTually'));
       case EventsPageRoute:
         return MaterialPageRoute(builder: (_) => EventsPage());
       case SingleEventRoute:
@@ -21,21 +22,21 @@ class Router {
             ),
           );
         }
-        return _errorRoute();
+        return errorRouteHandler(args);
       default:
-        return _errorRoute();
+        return errorRouteHandler(args);
     }
   }
 
-  static Route<dynamic> _errorRoute() {
+  static MaterialPageRoute errorRouteHandler(Object args) {
     return MaterialPageRoute(
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Error'),
+            title: Text('404 Error'),
           ),
           body: Center(
-            child: Text('ERROR'),
+            child: Text('The argument provided is: $args - undefined route, please try again.'),
           ),
         );
       },

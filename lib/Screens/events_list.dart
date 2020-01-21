@@ -5,6 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EventsPage extends StatefulWidget {
+
+
+  EventsPage({Key key, this.eventId}) : super(key: key);
+  final String eventId;
+
   @override
   _EventsPageState createState() {
     return _EventsPageState();
@@ -117,7 +122,7 @@ class _EventsPageState extends State<EventsPage> {
       margin: EdgeInsets.all(10.0),
       width: 210.0,
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(SingleEventRoute, arguments: eventsData['eventId']),
+        onTap: () => Navigator.of(context).pushNamed(SingleEventRoute, arguments: '${eventsData['ID']}'),
         child: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
