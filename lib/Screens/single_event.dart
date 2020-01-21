@@ -23,28 +23,29 @@ class SingleEvent extends StatelessWidget {
     return StreamBuilder(
       stream: getSingleEvent(),
       builder: (context, snapshot) {
-        final singleEventData = snapshot.data.data;
-        final singleEventKeys = singleEventData.keys.toList();
-        final attendees = singleEventData['attendees'];
-        final eventName = singleEventData['eventName'];
-        final summary = singleEventData['summary'];
-        final date = singleEventData['date'];
-
-        print('ID in SingleEvent -> $eventId');
-        print('singleEventKeys: $singleEventKeys');
-        print('singleEventInfo -> $attendees');
-        print("singleEventDate -> $date");
         if (snapshot.hasError) {
           return Text('Error ${snapshot.error}');
         }
         if (snapshot.hasData) {
+          print(snapshot.data.data);
+          final singleEventData = snapshot.data.data;
+          // final singleEventKeys = singleEventData.keys.toList();
+          // final attendees = singleEventData['attendees'];
+          final eventName = singleEventData['eventName'];
+          final summary = singleEventData['summary'];
+          // final date = singleEventData['date'];
+
+          // print('ID in SingleEvent -> $eventId');
+          // print('singleEventKeys: $singleEventKeys');
+          // print('singleEventInfo -> $attendees');
+          // print("singleEventDate -> $date");
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: DefaultTabController(
               length: 4,
               child: Scaffold(
                 appBar: AppBar(
-                  title: Text('$eventName: $eventId'),
+                  title: Text('$eventId: $eventName'),
                   leading: Icon(Icons.menu),
                   actions: <Widget>[
                     IconButton(icon: Icon(Icons.search), onPressed: () => {}),
@@ -56,10 +57,12 @@ class SingleEvent extends StatelessWidget {
                       Tab(text: 'Summary', icon: Icon(Icons.adjust)),
                       Tab(text: 'Activities', icon: Icon(Icons.local_activity)),
                       Tab(
-                        text: 'Location', icon: Icon(Icons.location_city),
+                        text: 'Location',
+                        icon: Icon(Icons.location_city),
                       ),
                       Tab(
-                        text: 'Dates', icon: Icon(Icons.calendar_view_day),
+                        text: 'Dates',
+                        icon: Icon(Icons.calendar_view_day),
                       )
                     ],
                   ),
@@ -70,7 +73,7 @@ class SingleEvent extends StatelessWidget {
                       '$summary',
                     ),
                     Text('Activities'),
-                    Map(),
+                    Map(eventId: eventId),
                     DatesTab(),
                   ],
                 ),
