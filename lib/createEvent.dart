@@ -1,11 +1,9 @@
-import 'package:EVENTually/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uuid/uuid.dart';
 
 class CreateEvent extends StatefulWidget {
   @override
@@ -21,6 +19,7 @@ class _CreateEventState extends State<CreateEvent> {
   Position _currentPosition;
   String _currentAddress;
   var id = new DateTime.now().millisecondsSinceEpoch.toString();
+  var count = 0;
 
   delete(dynamic obj) {
     setState(() {
@@ -37,6 +36,7 @@ class _CreateEventState extends State<CreateEvent> {
       friends.data.forEach((k, v) => {
             _friends.add({'display': v, 'value': k})
           });
+      count++;
     });
   }
 
@@ -105,7 +105,10 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
-    getFriends();
+    if (count < 1) {
+      getFriends();
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -149,6 +152,7 @@ class _CreateEventState extends State<CreateEvent> {
               required: true,
               value: null,
               change: (values) {
+                print(values);
                 setState(() {
                   _attendees = values;
                 });
@@ -159,7 +163,7 @@ class _CreateEventState extends State<CreateEvent> {
             ),
             Column(
               children: <Widget>[
-                if (_currentPosition != null) Text(_currentAddress),
+                _currentPosition != null ? Text(_currentAddress) : Text(''),
                 RaisedButton(
                   child: Text('Get my Location'),
                   onPressed: () {
