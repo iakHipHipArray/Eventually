@@ -34,11 +34,6 @@ class SingleEvent extends StatelessWidget {
           final eventName = singleEventData['eventName'];
           final summary = singleEventData['summary'];
           // final date = singleEventData['date'];
-
-          // print('ID in SingleEvent -> $eventId');
-          // print('singleEventKeys: $singleEventKeys');
-          // print('singleEventInfo -> $attendees');
-          // print("singleEventDate -> $date");
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: DefaultTabController(
