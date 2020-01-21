@@ -75,7 +75,8 @@ class _CreateEventState extends State<CreateEvent> {
         'location':
             new GeoPoint(_currentPosition.latitude, _currentPosition.longitude),
         'votes': 0
-      }
+      },
+      'centre': {'location': new GeoPoint(53.900341, -1.363163), 'votes': 0}
     });
   }
 
@@ -116,6 +117,19 @@ class _CreateEventState extends State<CreateEvent> {
         }
       });
     }
+  }
+
+  postAttendees() {
+    Firestore.instance.collection('attendees').document(id).setData({
+      'ryan1214': {
+        // hardcoded to ryan1214
+        'ID': 1,
+        'attending': true,
+        'location':
+            new GeoPoint(_currentPosition.latitude, _currentPosition.longitude),
+        'name': 'Ryan'
+      }
+    });
   }
 
   @override
@@ -234,6 +248,7 @@ class _CreateEventState extends State<CreateEvent> {
                     postLocation();
                     postEventDetails();
                     postDates();
+                    postAttendees();
                     sendNotifications();
                     //navigate to singleEvent.dart
                   },
