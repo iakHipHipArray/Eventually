@@ -1,5 +1,7 @@
+import 'package:EVENTually/activities.dart';
 import 'package:EVENTually/dates.dart';
 import 'package:EVENTually/maps.dart';
+import 'package:EVENTually/summary.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -66,10 +68,8 @@ class SingleEvent extends StatelessWidget {
                 ),
                 body: TabBarView(
                   children: <Widget>[
-                    Text(
-                      '$summary',
-                    ),
-                    Text('Activities'),
+                   Summary(),
+                    Activity(),
                     Map(eventId: eventId),
                     DatesTab(),
                   ],
