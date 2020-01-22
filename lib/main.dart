@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'EVENTually',
        theme: ThemeData(
-        primaryColor: Color(0xFF263238),
+        primaryColor: Color(0xFFd32f2f),
         accentColor: Color(0xFFD8ECF1),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),

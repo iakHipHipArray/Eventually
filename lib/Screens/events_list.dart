@@ -49,7 +49,7 @@ class _EventsPageState extends State<EventsPage> {
           size: 25.0,
           color: _selectedIndex == index
               ? Theme.of(context).primaryColor
-              : Color(0xFFf4b9b2),
+              : Color(0xFF263238),
         ),
       ),
     );
