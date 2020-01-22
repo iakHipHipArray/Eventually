@@ -78,14 +78,13 @@ class MapState extends State<Map> {
         CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: zoomVal)));
   }
 
-
   Widget _buildBody(BuildContext context) {
     print('${widget.eventId} <- in BuildContext in maps');
     return StreamBuilder(
         stream: Firestore.instance
-      .collection('attendees')
-      .document('${widget.eventId}')
-      .snapshots(),
+            .collection('attendees')
+            .document('${widget.eventId}')
+            .snapshots(),
         builder: (context, attendees) {
           if (!attendees.hasData) return Text('...Loading');
           return StreamBuilder(
@@ -122,17 +121,21 @@ class BuildMap {
     final attendeesData = attendees.data.data;
     final attendeesKeys = attendeesData.keys.toList();
     for (var i = 0; i < attendeesKeys.length; i++) {
-      final MarkerId markerId = MarkerId((i + locationsKeys.length).toString());
-      final Marker marker = Marker(
-          markerId: markerId,
-          icon: BitmapDescriptor.defaultMarkerWithHue(200),
-          position: LatLng(attendeesData[attendeesKeys[i]]['location'].latitude,
-              attendeesData[attendeesKeys[i]]['location'].longitude),
-          infoWindow:
-              InfoWindow(title: attendeesData[attendeesKeys[i]]['name']));
-      allLats.add(attendeesData[attendeesKeys[i]]['location'].latitude);
-      allLongs.add(attendeesData[attendeesKeys[i]]['location'].longitude);
-      markers[markerId] = marker;
+      if (attendeesData[attendeesKeys[i]]['attending']) {
+        final MarkerId markerId =
+            MarkerId((i + locationsKeys.length).toString());
+        final Marker marker = Marker(
+            markerId: markerId,
+            icon: BitmapDescriptor.defaultMarkerWithHue(200),
+            position: LatLng(
+                attendeesData[attendeesKeys[i]]['location'].latitude,
+                attendeesData[attendeesKeys[i]]['location'].longitude),
+            infoWindow:
+                InfoWindow(title: attendeesData[attendeesKeys[i]]['name']));
+        allLats.add(attendeesData[attendeesKeys[i]]['location'].latitude);
+        allLongs.add(attendeesData[attendeesKeys[i]]['location'].longitude);
+        markers[markerId] = marker;
+      }
     }
     final centre = findCentre(allLats, allLongs);
     postCentre(centre, locationsData['centre']['votes']);
