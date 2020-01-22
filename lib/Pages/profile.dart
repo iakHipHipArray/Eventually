@@ -11,14 +11,16 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
-  var _url;
  
-  void getStoredImage() async{
-  final ref = FirebaseStorage.instance.ref().child('profiles/image_picker8913761089550242066.jpg');
+   var _url = 'http://www.racemph.com/wp-content/uploads/2016/09/profile-image-placeholder.png' ;
+ 
+  void getStoredImage(context,img) async{
+  final ref = FirebaseStorage.instance.ref().child('$img');
   var url = await ref.getDownloadURL();
+  print(img);
+  print(url);
   setState(() {
-    _url = url;
+     _url = url;
   });
   }
  
@@ -67,12 +69,13 @@ Widget _buildBody(BuildContext context){
       final firstName = user['firstName'];
       final lastName =user['lastName'];
       final username = user['username'];
-      getStoredImage();
-      print(_url);
+      final img = user['img'];
       
       
-      // final url = getStoredImage();
-      // print(url)
+      if(img != null)  getStoredImage(context,img);
+      
+      
+      
       if (!snapshot.hasData) return Text('LOADING');
       
       return Column(
@@ -108,10 +111,7 @@ Widget _buildProfileImage(context) {
                         child: new SizedBox(
                           width: 180.0,
                           height: 180.0,
-                          child:(_image!=null)?Image.file(_image,fit:BoxFit.fill,):Image.network(
-                            'http://www.racemph.com/wp-content/uploads/2016/09/profile-image-placeholder.png',
-                            fit: BoxFit.fill,
-                          ),
+                          child:Image.network('$_url',fit:BoxFit.fill,)
                         ),
                       ),
                     ),
