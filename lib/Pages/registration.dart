@@ -78,70 +78,59 @@ class _UserRegistrationState extends State<UserRegistration> {
                   SizedBox(
                     height: 30,
                   ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: false,
-                    keyboardType: TextInputType.text,
-                    controller: _userNameController,
-                    decoration: InputDecoration(
-                        labelText: "Username",
-                        hintText: "Username",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
+                  Padding(
+               padding: EdgeInsets.only(left: 40.0, right: 20.0, top: 10.0),
+                    child: TextField(
+                      autofocus: false,
+                      obscureText: false,
+                      keyboardType: TextInputType.text,
+                      controller: _userNameController,
+                      decoration: InputDecoration(
+                          labelText: "Username",
+                                               border: InputBorder.none,
+                          hintText: "Username",
+                          hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                          ),
+                          ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 40.0, right: 20.0, top: 10.0),
+                    child: TextField(
+                      autofocus: false,
+                      obscureText: false,
+                      keyboardType: TextInputType.text,
+                      controller: _firstNameController,
+                      decoration: InputDecoration(
+                          labelText: "First Name",
+                          hintText: "First Name",
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid))),
+                    ),
                   ),
                   SizedBox(
                     height: 30,
                   ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: false,
-                    keyboardType: TextInputType.text,
-                    controller: _firstNameController,
-                    decoration: InputDecoration(
-                        labelText: "First Name",
-                        hintText: "First Name",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
+                  Padding(
+                    padding: EdgeInsets.only(left: 40.0, right: 20.0, top: 10.0),
+                    child: TextField(
+                      autofocus: false,
+                      obscureText: false,
+                      keyboardType: TextInputType.text,
+                      controller: _lastNameController,
+                      decoration: InputDecoration(
+                          labelText: "Last Name",
+                          hintText: "Last Name",
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid))),
                     
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: false,
-                    keyboardType: TextInputType.text,
-                    controller: _lastNameController,
-                    decoration: InputDecoration(
-                        labelText: "Last Name",
-                        hintText: "Last Name",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid))),
-                  
+                    ),
                   ),
                   SizedBox(
                     height: 30,
@@ -160,7 +149,9 @@ class _UserRegistrationState extends State<UserRegistration> {
                   SizedBox(
                     height: 30,
                   ),
-                         TextField(
+                         Padding(
+                           padding: EdgeInsets.only(left: 40.0, right: 20.0, top: 10.0),
+                           child: TextField(
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
@@ -169,66 +160,63 @@ class _UserRegistrationState extends State<UserRegistration> {
                         labelText: "Email",
                         hintText: "Email",
                         labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
+                            fontSize: 16,
                         ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid))),
+                      ),
                     
                   ),
+                         ),
                   SizedBox(
                     height: 30,
                   ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                    controller: _passwordEditingController,
-                    decoration: InputDecoration(
-                        labelText: "Password",
-                        hintText: "Password",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
+                  Padding(
+                   padding: EdgeInsets.only(left: 40.0, right: 20.0, top: 10.0),
+                    child: TextField(
+                      autofocus: false,
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      controller: _passwordEditingController,
+                      decoration: InputDecoration(
+                          labelText: "Password",
+                          hintText: "Password",
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.blue,
-                                style: BorderStyle.solid))),
-                    
+                      
+                    ),
                   ),
                   Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[                    
-                    RaisedButton(
-                        color: Colors.blue,
-                        onPressed: () {
-                          _firstNameController.clear();
-                          _lastNameController.clear();
+                  children: <Widget>[    
+                    ButtonBar(children: <Widget>[
+FlatButton(
+                  child: Text('Clear All'),
+                  onPressed: () {
+                    _firstNameController.clear();
+                    _lastNameController.clear();
                           _userNameController.clear();
                           _emailEditingController.clear();
                           _passwordEditingController.clear();
                           setState(() {
                              _currentPosition=null;
                           });
-                         
-                        },
-                        child: const Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.white,
-                        )),
-                    ),
-                    
-                    RaisedButton(
-                        color: Colors.blue,
-                        onPressed: () {
-                          authHandler.handleSignUp(
+                  },
+                ),
+            ],
+            ),                
+                    ButtonBar(
+                      children: <Widget>[
+Container(
+    width: 200.0,
+  height: 60.0,
+  alignment: FractionalOffset.center,
+  decoration: new BoxDecoration(
+    color: const Color(0xFF3EBACE),
+    borderRadius: new BorderRadius.all(const Radius.circular(30.0)),
+  ),
+                        child: GestureDetector(
+                          onTap: () {authHandler.handleSignUp(
                             _emailEditingController.text, _passwordEditingController.text)
                             .whenComplete(() {
                               _createData();
@@ -237,12 +225,20 @@ class _UserRegistrationState extends State<UserRegistration> {
                           context,
                           new MaterialPageRoute(
                               builder: (context) => new HomePage()));
-                    }).catchError((e) => print(e));
-                        },
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(color: Colors.white,
-                        ))
+                    }).catchError((e) => print(e));},
+                                                  child: const Text(
+                            "Submit",
+                            style: TextStyle(
+      color: Colors.white,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w300,
+      letterSpacing: 0.3,
+    
+                          ),
+                        ),
+),
+  ),
+    ],
                     )
                   ],
                 )

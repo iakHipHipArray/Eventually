@@ -81,15 +81,23 @@ FlatButton(
     color: const Color(0xFF3EBACE),
     borderRadius: new BorderRadius.all(const Radius.circular(30.0)),
   ),
-                  child: Text(
-                    'Sign Up',
-                    style: new TextStyle(
+                  child: GestureDetector(
+                    onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) { return UserRegistration(); })
+                    );
+                  },
+                                      child: Text(
+                      'Sign Up',
+                      style: new TextStyle(
       color: Colors.white,
       fontSize: 20.0,
       fontWeight: FontWeight.w300,
       letterSpacing: 0.3,
     ),
-                    ),
+                      ),
+                  ),
                 ),
                             SizedBox(
               height: 12.0,
