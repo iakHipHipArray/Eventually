@@ -139,7 +139,7 @@ class _CreateEventState extends State<CreateEvent> {
           'ID': null,
           'attending': false,
           'location': null,
-          'name': null
+          'name': _friends[i]['display']
         }
       });
     }
