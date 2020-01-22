@@ -111,6 +111,8 @@ class _CreateEventState extends State<CreateEvent> {
           .document(_attendees[i])
           .updateData({
         '$id': {
+          'ID': id,
+          'username': _attendees[i],
           'body':
               'You have been invited to an event by Ryan1214', // change to say who made event (hardcoded atm)
           'receivedAt': new DateTime.now().millisecondsSinceEpoch
