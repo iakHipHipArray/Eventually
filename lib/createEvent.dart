@@ -86,7 +86,10 @@ class _CreateEventState extends State<CreateEvent> {
       'eventName': _titleController.text,
       'summary': _summaryController.text,
       'attendees': _attendees,
-      'ID': id
+      'ID': id,
+      'date': null,
+      'location': null,
+      'image': null
     });
   }
 
