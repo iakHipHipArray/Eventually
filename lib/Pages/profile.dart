@@ -11,9 +11,21 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  var _url;
+ 
+  void getStoredImage() async{
+  final ref = FirebaseStorage.instance.ref().child('profiles/image_picker8913761089550242066.jpg');
+  var url = await ref.getDownloadURL();
+  setState(() {
+    _url = url;
+  });
+  }
+ 
   File _image;
   Future getImage() async{
     var image= await ImagePicker.pickImage(source: ImageSource.gallery);
+  
     setState((){
       _image= image;
       print('Image Path $_image');
@@ -25,6 +37,7 @@ class _ProfileState extends State<Profile> {
        StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child('profiles/$fileName');
        StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
        StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+       print(taskSnapshot);
        setState(() {
           print("Profile Picture uploaded");
           Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
@@ -54,18 +67,22 @@ Widget _buildBody(BuildContext context){
       final firstName = user['firstName'];
       final lastName =user['lastName'];
       final username = user['username'];
+      getStoredImage();
+      print(_url);
+      
+      
+      // final url = getStoredImage();
+      // print(url)
       if (!snapshot.hasData) return Text('LOADING');
-
+      
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          _buildProfileImage(context),
+          _buildProfileImage(context,),
           _buildInfo(context, firstName, lastName, username),
          
         ],
       );
-    
-
     },
     
   );
