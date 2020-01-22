@@ -21,14 +21,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('Home Page');
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(title: Text('EVENTually')),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +34,7 @@ class MyHomePage extends StatelessWidget {
             RaisedButton(
               child: Text('press me'),
               onPressed: () {
-                Navigator.of(context).pushNamed(EventsPageRoute, arguments: 'Events List');
+                Navigator.of(context).pushNamed(LoginPageRoute, arguments: 'Events List');
               },
             ),
           ],

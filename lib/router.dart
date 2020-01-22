@@ -1,3 +1,4 @@
+import 'package:EVENTually/Pages/login.dart';
 import 'package:EVENTually/Screens/events_list.dart';
 import 'package:EVENTually/Screens/single_event.dart';
 import 'package:EVENTually/main.dart';
@@ -10,10 +11,11 @@ class Router {
     print('Router Args -> $args');
     switch (settings.name) {
       case HomePageRoute:
-        return MaterialPageRoute(
-            builder: (_) => MyHomePage(title: 'EVENTually'));
+        return MaterialPageRoute(builder: (_) => HomePage());
       case EventsPageRoute:
         return MaterialPageRoute(builder: (_) => EventsPage());
+      case LoginPageRoute:
+        return MaterialPageRoute(builder: (_) => LoginPage());
       case SingleEventRoute:
         if (args is String) {
           return MaterialPageRoute(
@@ -36,7 +38,8 @@ class Router {
             title: Text('404 Error'),
           ),
           body: Center(
-            child: Text('The argument provided is: $args - undefined route, please try again.'),
+            child: Text(
+                'The argument provided is: $args - undefined route, please try again.'),
           ),
         );
       },
