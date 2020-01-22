@@ -75,9 +75,16 @@ class _UserRegistrationState extends State<UserRegistration> {
             child: Center(
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 30,
+                    SizedBox(
+                    height: 20,
                   ),
+                   ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image(
+            image: AssetImage('assets/images/EVENTually_Logo_smaller.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
                   Padding(
                padding: EdgeInsets.only(left: 40.0, right: 20.0, top: 10.0),
                     child: TextField(
