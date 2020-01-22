@@ -11,14 +11,12 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
- 
+  
    var _url = 'http://www.racemph.com/wp-content/uploads/2016/09/profile-image-placeholder.png' ;
  
   void getStoredImage(context,img) async{
   final ref = FirebaseStorage.instance.ref().child('$img');
   var url = await ref.getDownloadURL();
-  print(img);
-  print(url);
   setState(() {
      _url = url;
   });
@@ -33,15 +31,24 @@ class _ProfileState extends State<Profile> {
       print('Image Path $_image');
     });
   }
+
+    postImgPath(username,fileName) {
+      Firestore.instance.collection('users').document(username).setData({
+        'img' : 'profiles/$fileName',
+      });
+    }
   
-    Future uploadPic(BuildContext context) async{
+    Future uploadPic(BuildContext context, username) async{
       String fileName = basename(_image.path);
        StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child('profiles/$fileName');
        StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
        StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
-       print(taskSnapshot);
+       
+      //  postImgPath(username, fileName);
        setState(() {
+       
           print("Profile Picture uploaded");
+          
           Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
        });
     }
@@ -71,7 +78,6 @@ Widget _buildBody(BuildContext context){
       final username = user['username'];
       final img = user['img'];
       
-      
       if(img != null)  getStoredImage(context,img);
       
       
@@ -81,7 +87,7 @@ Widget _buildBody(BuildContext context){
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          _buildProfileImage(context,),
+          _buildProfileImage(context,username),
           _buildInfo(context, firstName, lastName, username),
          
         ],
@@ -93,7 +99,7 @@ Widget _buildBody(BuildContext context){
 
 
 
-Widget _buildProfileImage(context) {
+Widget _buildProfileImage(context,username) {
     return Column(     
       children: <Widget>[
                SizedBox(height:50.0),
@@ -111,7 +117,7 @@ Widget _buildProfileImage(context) {
                         child: new SizedBox(
                           width: 180.0,
                           height: 180.0,
-                          child:Image.network('$_url',fit:BoxFit.fill,)
+                          child:(_image!=null)?Image.file(_image,fit:BoxFit.fill,):Image.network('$_url',fit:BoxFit.fill,)
                         ),
                       ),
                     ),
@@ -124,12 +130,13 @@ Widget _buildProfileImage(context) {
                         size: 30.0,
                       ),
                       onPressed: () {
-                         getImage().whenComplete((){uploadPic(context);});
+                         getImage().whenComplete((){uploadPic(context,username);});
                       },
                     ),
                   ),
                 ],
-              )],
+              )
+            ],
     );
   }
 
