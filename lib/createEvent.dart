@@ -132,6 +132,10 @@ class _CreateEventState extends State<CreateEvent> {
     });
   }
 
+  postActivities() {
+    Firestore.instance.collection('activities').document(id).setData({});
+  }
+
   @override
   Widget build(BuildContext context) {
     if (count < 1) {
@@ -250,6 +254,7 @@ class _CreateEventState extends State<CreateEvent> {
                     postDates();
                     postAttendees();
                     sendNotifications();
+                    postActivities();
                     //navigate to singleEvent.dart
                   },
                 )
