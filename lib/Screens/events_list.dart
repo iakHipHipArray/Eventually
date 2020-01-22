@@ -300,10 +300,14 @@ class _EventsPageState extends State<EventsPage> {
           title: SizedBox.shrink(),
         ),
         BottomNavigationBarItem(
-          icon: CircleAvatar(
-            radius: 15.0,
-            backgroundImage: NetworkImage(
-                'https://image.shutterstock.com/image-vector/default-avatar-profile-icon-grey-260nw-1545688190.jpg'),
+          icon: GestureDetector(
+            onTap: () => Navigator.of(context)
+            .pushNamed(ProfilePageRoute),
+            child: CircleAvatar(
+              radius: 15.0,
+              backgroundImage: NetworkImage(
+                  'https://image.shutterstock.com/image-vector/default-avatar-profile-icon-grey-260nw-1545688190.jpg'),
+            ),
           ),
           title: SizedBox.shrink(),
         ),

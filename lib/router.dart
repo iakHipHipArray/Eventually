@@ -1,4 +1,5 @@
 import 'package:EVENTually/Pages/login.dart';
+import 'package:EVENTually/Pages/profile.dart';
 import 'package:EVENTually/Screens/events_list.dart';
 import 'package:EVENTually/Screens/single_event.dart';
 import 'package:EVENTually/main.dart';
@@ -14,6 +15,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => HomePage());
       case EventsPageRoute:
         return MaterialPageRoute(builder: (_) => EventsPage());
+              case ProfilePageRoute:
+        return MaterialPageRoute(builder: (_) => Profile());
       case LoginPageRoute:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case SingleEventRoute:
