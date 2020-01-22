@@ -85,7 +85,7 @@ FlatButton(
   height: 60.0,
   alignment: FractionalOffset.center,
   decoration: new BoxDecoration(
-    color: const Color(0xFF3EBACE),
+    color: const Color(0xFFD32F2F),
     borderRadius: new BorderRadius.all(const Radius.circular(30.0)),
   ),
                   child: GestureDetector(
@@ -114,7 +114,7 @@ FlatButton(
   height: 60.0,
   alignment: FractionalOffset.center,
   decoration: new BoxDecoration(
-      color: const Color(0xFF3EBACE),
+      color: const Color(0xFFd32f2f),
     borderRadius: new BorderRadius.all(const Radius.circular(30.0)),
   ),
                   child: GestureDetector(

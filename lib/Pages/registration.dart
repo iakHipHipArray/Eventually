@@ -145,13 +145,30 @@ class _UserRegistrationState extends State<UserRegistration> {
                   Column(
                     children: <Widget>[
                       _currentPosition != null? Text(_currentAddress):Text(''),
-                        RaisedButton(
-                          child: Text('Get my Location'),
-                          onPressed: () {
+                        Container(
+                          width: 320.0,
+  height: 60.0,
+  alignment: FractionalOffset.center,
+  decoration: new BoxDecoration(
+      color: const Color(0xFFd32f2f),
+    borderRadius: new BorderRadius.all(const Radius.circular(30.0)),
+  ),
+                          child: GestureDetector(
+                          onTap: () {
                           getCurrentLocation();
                           },
+                            child: Text(
+                              'Get my Location',
+                            style: new TextStyle(
+      color: Colors.white,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w300,
+      letterSpacing: 0.3,
+    ),
+                            ),
                          ),
-                    ],
+                         ),
+                          ],
                    ),                  
                   SizedBox(
                     height: 30,
@@ -219,7 +236,7 @@ Container(
   height: 60.0,
   alignment: FractionalOffset.center,
   decoration: new BoxDecoration(
-    color: const Color(0xFF3EBACE),
+    color: const Color(0xFFd32f2f),
     borderRadius: new BorderRadius.all(const Radius.circular(30.0)),
   ),
                         child: GestureDetector(

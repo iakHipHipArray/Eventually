@@ -1,7 +1,7 @@
 import 'package:EVENTually/router.dart';
 import 'package:EVENTually/routing_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 
 void main() {
     runApp(MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'EVENTually',
        theme: ThemeData(
-        primaryColor: Color(0xFF3EBACE),
+        primaryColor: Color(0xFF263238),
         accentColor: Color(0xFFD8ECF1),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
