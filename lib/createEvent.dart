@@ -20,6 +20,7 @@ class _CreateEventState extends State<CreateEvent> {
   String _currentAddress;
   var id = new DateTime.now().millisecondsSinceEpoch.toString();
   var count = 0;
+  var _index = 1;
 
   delete(dynamic obj) {
     setState(() {
@@ -132,6 +133,16 @@ class _CreateEventState extends State<CreateEvent> {
         'name': 'Ryan'
       }
     });
+    for (var i = 0; i < _attendees.length; i++) {
+      Firestore.instance.collection('attendees').document(id).updateData({
+        _attendees[i]: {
+          'ID': null,
+          'attending': false,
+          'location': null,
+          'name': null
+        }
+      });
+    }
   }
 
   postActivities() {
