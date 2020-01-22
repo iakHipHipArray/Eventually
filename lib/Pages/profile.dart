@@ -203,35 +203,7 @@ Widget _buildProfileImage(context,username) {
                     ),
                   ),
                 ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('location',
-                                style: TextStyle(
-                                    color: Colors.blueGrey, fontSize: 18.0)),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('This will be location',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              )
            ],)
 
            );
