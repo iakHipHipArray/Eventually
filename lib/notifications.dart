@@ -7,7 +7,8 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  List _notifications;
+  List _notifications = [];
+  var keys;
   var count = 0;
 
   getNotifications() {
@@ -15,18 +16,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
         .collection('notifications')
         .document('rmpillar')
         .get()
-        .then((notifications) => {
-              setState(() {
-                print(notifications.data);
-                _notifications = ['hello'];
-              }),
-              count++
-            });
+        .then((notifications) {
+      keys = notifications.data.keys;
+      _notifications.add(notifications);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (count < 0) {
+    if (count < 1) {
       getNotifications();
     }
 
