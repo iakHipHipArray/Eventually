@@ -49,7 +49,7 @@ class Activity extends StatelessWidget {
       RaisedButton(
         child: Icon(
           Icons.add,
-          semanticLabel: 'SUggest a new activity',
+          semanticLabel: 'Suggest a new activity',
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: () {
