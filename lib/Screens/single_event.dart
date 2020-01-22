@@ -40,6 +40,7 @@ class SingleEvent extends StatelessWidget {
               length: 4,
               child: Scaffold(
                 appBar: AppBar(
+                  backgroundColor: Theme.of(context).primaryColor,
                   title: Text('$eventId: $eventName'),
                   leading: Icon(Icons.menu),
                   actions: <Widget>[
@@ -47,7 +48,7 @@ class SingleEvent extends StatelessWidget {
                     IconButton(icon: Icon(Icons.more_vert), onPressed: () => {})
                   ],
                   bottom: TabBar(
-                    indicatorColor: Colors.yellow,
+                    indicatorColor: Theme.of(context).accentColor,
                     tabs: <Widget>[
                       Tab(text: 'Summary', icon: Icon(Icons.adjust)),
                       Tab(text: 'Activities', icon: Icon(Icons.local_activity)),

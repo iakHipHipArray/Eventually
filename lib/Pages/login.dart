@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: <Widget>[
                 SizedBox(height: 16.0),
-             /*    Text('EVENTually'), */
              ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Image(

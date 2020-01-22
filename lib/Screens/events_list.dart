@@ -5,8 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EventsPage extends StatefulWidget {
-
-
   EventsPage({Key key, this.eventId}) : super(key: key);
   final String eventId;
 
@@ -117,12 +115,13 @@ class _EventsPageState extends State<EventsPage> {
 
   Container eventCarouselInnerContainer(
       Map<String, dynamic> eventsData, BuildContext context, Events event) {
-   // print('in events_list -> ${eventsData['ID']}');
+    // print('in events_list -> ${eventsData['ID']}');
     return Container(
       margin: EdgeInsets.all(10.0),
       width: 210.0,
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(SingleEventRoute, arguments: '${eventsData['ID']}'),
+        onTap: () => Navigator.of(context)
+            .pushNamed(SingleEventRoute, arguments: '${eventsData['ID']}'),
         child: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
@@ -224,12 +223,12 @@ class _EventsPageState extends State<EventsPage> {
 
   Padding mainHeader() {
     return Padding(
-      padding: EdgeInsets.only(left: 20.0, right: 120.0, bottom: 20.0),
-      child: Text(
-        'Events List',
-        style: TextStyle(
-          fontSize: 30.0,
-          fontWeight: FontWeight.bold,
+      padding: const EdgeInsets.all(15.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Image(
+          image: AssetImage('assets/images/EVENTually_Logo_smaller.png'),
+          width: 100,
         ),
       ),
     );
