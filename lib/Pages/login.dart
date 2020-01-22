@@ -27,7 +27,14 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: <Widget>[
                 SizedBox(height: 16.0),
-                Text('EVENTually'),
+             /*    Text('EVENTually'), */
+             ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image(
+            image: AssetImage('assets/images/EVENTually_Logo_smaller.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
               ],
             ),
             SizedBox(height: 40.0),
