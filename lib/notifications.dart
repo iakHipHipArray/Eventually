@@ -51,9 +51,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget _buildListItem(BuildContext context, data) {
     return Card(
       child: Container(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[Text(data['body'])],
+          children: <Widget>[
+            Text(data['body']),
+            RaisedButton(
+              child: Text('Accept'),
+              onPressed: () {},
+            )
+          ],
         ),
       ),
     );
