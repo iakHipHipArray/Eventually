@@ -33,9 +33,7 @@ class _ProfileState extends State<Profile> {
   }
 
     postImgPath(username,fileName) {
-      Firestore.instance.collection('users').document(username).setData({
-        'img' : 'profiles/$fileName',
-      });
+      Firestore.instance.collection('users').document(username).updateData({'img':'profiles/$fileName'});
     }
   
     Future uploadPic(BuildContext context, username) async{
@@ -43,8 +41,8 @@ class _ProfileState extends State<Profile> {
        StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child('profiles/$fileName');
        StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
        StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
-       
-      //  postImgPath(username, fileName);
+       print(fileName);
+       postImgPath(username, fileName);
        setState(() {
        
           print("Profile Picture uploaded");
@@ -70,7 +68,7 @@ class _ProfileState extends State<Profile> {
 
 Widget _buildBody(BuildContext context){
   return StreamBuilder(
-    stream: Firestore.instance.collection('users').document('rmpillar').snapshots(),
+    stream: Firestore.instance.collection('users').document('FinalUserSignUpTest').snapshots(),
     builder: (context, snapshot) {
       final user= snapshot.data.data;
       final firstName = user['firstName'];
