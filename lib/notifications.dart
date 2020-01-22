@@ -10,6 +10,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
   List _notifications = [];
   List keys;
   var count = 0;
+  GeoPoint _location;
+  var _name;
+
+  getDetails() {
+    Firestore.instance
+        .collection('users')
+        .document('rmpillar')
+        .get()
+        .then((data) {
+      _location = data.data['location'];
+      _name = data.data['firstName'];
+    });
+  }
 
   getNotifications() {
     Firestore.instance
@@ -30,6 +43,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     if (count < 1) getNotifications();
+    getDetails();
 
     return Scaffold(
       body: Column(
@@ -57,7 +71,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
             Text(data['body']),
             RaisedButton(
               child: Text('Accept'),
-              onPressed: () {},
+              onPressed: () {
+                Firestore.instance
+                    .collection('attendees')
+                    .document(data['ID'])
+                    .updateData({
+                  data['username']: {
+                    'attending': true,
+                    'location': _location,
+                    'ID': new DateTime.now().millisecondsSinceEpoch,
+                    'name': _name
+                  }
+                });
+              },
             )
           ],
         ),
