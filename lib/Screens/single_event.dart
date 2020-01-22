@@ -41,10 +41,11 @@ class SingleEvent extends StatelessWidget {
               child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: Theme.of(context).primaryColor,
-                  title: Text('$eventId: $eventName'),
+                  title: Text('$eventName'),
+                  // '$eventId
                   leading: Icon(Icons.menu),
                   actions: <Widget>[
-                    IconButton(icon: Icon(Icons.search), onPressed: () => {}),
+                    IconButton(icon: Icon(Icons.home), onPressed: () => {}),
                     IconButton(icon: Icon(Icons.more_vert), onPressed: () => {})
                   ],
                   bottom: TabBar(
