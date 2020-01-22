@@ -104,9 +104,10 @@ class MapState extends State<Map> {
 
 class BuildMap {
   _addMarkerLongPressed(latlong) {
-    Firestore.instance.collection('locations').document('event1').setData({
+    print(latlong.latitude);
+    Firestore.instance.collection('locations').document('event1').updateData({
       new DateTime.now().millisecondsSinceEpoch.toString(): {
-        'location': latlong,
+        'location': new GeoPoint(latlong.latitude, latlong.longitude),
         'votes': 0
       }
     });
@@ -165,6 +166,7 @@ class BuildMap {
           _controller.complete(controller);
         },
         onLongPress: (latlong) {
+          // print(latlong);
           _addMarkerLongPressed(latlong);
         },
         markers: Set<Marker>.of(markers.values));
