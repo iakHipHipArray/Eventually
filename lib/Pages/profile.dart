@@ -105,12 +105,11 @@ Widget _buildProfileImage(context,username) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: CircleAvatar(
-                      
-                      radius: 100,
-                      backgroundColor: Colors.blue,
+                  CircleAvatar(
+                    radius: 100,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: Align(
+                      alignment: Alignment.center,
                       child: ClipOval(
                         child: new SizedBox(
                           width: 180.0,
@@ -121,7 +120,7 @@ Widget _buildProfileImage(context,username) {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 60.0),
+                    padding: EdgeInsets.only(top: 60.0,left: 30.0),
                     child: IconButton(
                       icon: Icon(
                         FontAwesomeIcons.camera,
