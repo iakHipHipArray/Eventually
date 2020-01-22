@@ -4,36 +4,57 @@ import 'package:flutter/material.dart';
 class Summary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: <Widget>[
-        Text(
-          'Event Overview',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
-        ),
-        Card(
-          child: Column(children: <Widget>[
-            Text('My event'),
-            Text(
-                'asdfgfdsfgfdsdfg dfghfdfsg jdfkg dfkg jdfkjgh ekjfhg djfhg dkjfgh dfjh '),
-          ]),
-        ),
-        Image(
-          image: NetworkImage(
-              'https://ichef.bbci.co.uk/news/1024/branded_news/E34F/production/_104419185_bopper.jpg'),
-        ),
-        Card(
-          child: Row(
-            children: <Widget>[Icon(Icons.calendar_today), Text('Date: TBC')],
-          ),
-        ),
-        Expanded(
-          child: Container(
-            child: _buildBody(context),
-          ),
-        )
-      ],
-    ));
+    return StreamBuilder(
+      stream: Firestore.instance.collection('events')
+        .document('event1')
+        .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Text('LOADING');
+        final event = snapshot.data.data;
+        // final image = event['image'] ? event['image'] : '';
+        // print(image);
+        return Container(
+            child: Column(
+          children: <Widget>[
+            Stack(
+              children:<Widget>[ 
+                // Image(
+                //   image: NetworkImage(
+                //     image
+                //   ),
+                // ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        event['eventName'],
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
+                      ),
+                      Text(event['summary'])
+                    ]
+                  ),
+                )
+              ],
+            ),
+            Card(
+              child: Row(
+                children: <Widget>[Icon(Icons.location_on), Text('Date: TBC')],
+              ),
+            ),
+            Card(
+              child: Row(
+                children: <Widget>[Icon(Icons.calendar_today), Text('Date: TBC')],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                child: _buildBody(context),
+              ),
+            )
+          ],
+        ));
+      }
+    );
   }
 }
 
