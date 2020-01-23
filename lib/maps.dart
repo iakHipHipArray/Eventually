@@ -9,10 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Map extends StatefulWidget {
   final String eventId;
 
-  Map({
-    Key key,
-    @required this.eventId,
-  }) : super(key: key);
+  Map(this.eventId);
 
   @override
   State<StatefulWidget> createState() {
