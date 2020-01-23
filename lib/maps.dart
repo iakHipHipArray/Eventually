@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
 
 class Map extends StatefulWidget {
   final String eventId;
@@ -113,18 +114,33 @@ class BuildMap {
     });
   }
 
+  getAddress(lat, long) async {
+    final coordinates = new Coordinates(lat, long);
+    final addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    return addresses.first.addressLine;
+  }
+
   makeMarkers(locations, attendees) {
     var markers = <MarkerId, Marker>{};
     final locationsData = locations.data.data;
     final locationsKeys = locationsData.keys.toList();
     for (var i = 0; i < locationsKeys.length; i++) {
-      final MarkerId markerId = MarkerId(i.toString());
-      final Marker marker = Marker(
-          markerId: markerId,
-          icon: BitmapDescriptor.defaultMarkerWithHue(350),
-          position: LatLng(locationsData[locationsKeys[i]]['location'].latitude,
-              locationsData[locationsKeys[i]]['location'].longitude));
-      markers[markerId] = marker;
+      // var textAddress;
+      getAddress(locationsData[locationsKeys[i]]['location'].latitude,
+              locationsData[locationsKeys[i]]['location'].longitude)
+          .then((address) {
+        MarkerId markerId = MarkerId(i.toString());
+        final Marker marker = Marker(
+            markerId: markerId,
+            icon: BitmapDescriptor.defaultMarkerWithHue(350),
+            position: LatLng(
+                locationsData[locationsKeys[i]]['location'].latitude,
+                locationsData[locationsKeys[i]]['location'].longitude),
+            infoWindow: InfoWindow(title: address));
+
+        markers[markerId] = marker;
+      });
     }
     var allLats = [];
     var allLongs = [];
