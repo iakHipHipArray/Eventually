@@ -268,7 +268,7 @@ class _CreateEventState extends State<CreateEvent> {
                 FlatButton(
                   child: Text('CANCEL'),
                   onPressed: () {
-                    //navigate back
+                    Navigator.pop(context);
                   },
                 ),
                 RaisedButton(
@@ -281,7 +281,6 @@ class _CreateEventState extends State<CreateEvent> {
                     sendNotifications();
                     postActivities();
                     Navigator.pop(context);
-                    //navigate to singleEvent.dart
                   },
                 )
               ],
