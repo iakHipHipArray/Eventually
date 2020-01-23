@@ -81,7 +81,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                    ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Image(
-            image: AssetImage('assets/images/EVENTually_Logo_smaller.png'),
+            image: AssetImage('assets/images/2020IAKEventuallyLogoAnimatedSmall.gif'),
             fit: BoxFit.cover,
           ),
         ),

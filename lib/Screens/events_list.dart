@@ -227,7 +227,7 @@ class _EventsPageState extends State<EventsPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: Image(
-          image: AssetImage('assets/images/EVENTually_Logo_smaller.png'),
+          image: AssetImage('assets/images/2020IAKEventually_Logo_AnimatedLarge.gif'),
           width: 100,
         ),
       ),
