@@ -14,7 +14,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
   var _name;
 
   getDetails() {
-    Firestore.instance.collection('users').document('rae77').get().then((data) {
+    Firestore.instance
+        .collection('users')
+        .document('rmpillar')
+        .get()
+        .then((data) {
       _location = data.data['location'];
       _name = data.data['firstName'];
     });
@@ -23,7 +27,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   getNotifications() {
     Firestore.instance
         .collection('notifications')
-        .document('rae77')
+        .document('rmpillar')
         .get()
         .then((notifications) {
       setState(() {
@@ -41,20 +45,22 @@ class _NotificationsPageState extends State<NotificationsPage> {
     if (count < 1) getNotifications();
     getDetails();
 
-    return StreamBuilder(
-      stream: Firestore.instance
-          .collection('notifications')
-          .document('rae77')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return Text('Loading...');
-        final keys = snapshot.data.data.keys.toList();
-        return ListView.builder(
-            itemExtent: 80.0,
-            itemCount: keys.length,
-            itemBuilder: (context, index) =>
-                _buildListItem(context, _notifications[index]));
-      },
+    return Scaffold(
+      body: StreamBuilder(
+        stream: Firestore.instance
+            .collection('notifications')
+            .document('rmpillar')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Text('Loading...');
+          final keys = snapshot.data.data.keys.toList();
+          return ListView.builder(
+              itemExtent: 80.0,
+              itemCount: keys.length,
+              itemBuilder: (context, index) =>
+                  _buildListItem(context, _notifications[index]));
+        },
+      ),
     );
   }
 
@@ -81,7 +87,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 });
                 Firestore.instance
                     .collection('notifications')
-                    .document('rae77')
+                    .document('rmpillar')
                     .updateData({data['ID']: FieldValue.delete()});
               },
             )

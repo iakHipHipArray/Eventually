@@ -5,7 +5,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocoder/geocoder.dart';
 
 class Map extends StatefulWidget {
   final String eventId;
@@ -38,6 +37,58 @@ class MapState extends State<Map> {
           _buildBody(context),
           _zoomminusfunction(),
           _zoomplusfunction(),
+          createKey(),
+        ],
+      ),
+    );
+  }
+
+  Widget createKey() {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 1.0, 8.0, 1.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text('Centre'),
+                  Icon(FontAwesomeIcons.solidSquare, color: Color(0xFF00FF00)),
+                ],
+              ),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 1.0, 8.0, 1.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text('Attendees'),
+                  Icon(FontAwesomeIcons.solidSquare, color: Color(0xFF0096FF)),
+                ],
+              ),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 1.0, 8.0, 1.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text('Locations'),
+                  Icon(FontAwesomeIcons.solidSquare, color: Color(0xFFFF005D)),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -104,43 +155,19 @@ class MapState extends State<Map> {
 }
 
 class BuildMap {
-  _addMarkerLongPressed(latlong) {
-    print(latlong.latitude);
-    Firestore.instance.collection('locations').document('event1').updateData({
-      new DateTime.now().millisecondsSinceEpoch.toString(): {
-        'location': new GeoPoint(latlong.latitude, latlong.longitude),
-        'votes': 0
-      }
-    });
-  }
-
-  getAddress(lat, long) async {
-    final coordinates = new Coordinates(lat, long);
-    final addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    return addresses.first.addressLine;
-  }
-
   makeMarkers(locations, attendees) {
     var markers = <MarkerId, Marker>{};
     final locationsData = locations.data.data;
     final locationsKeys = locationsData.keys.toList();
     for (var i = 0; i < locationsKeys.length; i++) {
-      // var textAddress;
-      getAddress(locationsData[locationsKeys[i]]['location'].latitude,
-              locationsData[locationsKeys[i]]['location'].longitude)
-          .then((address) {
-        MarkerId markerId = MarkerId(i.toString());
-        final Marker marker = Marker(
-            markerId: markerId,
-            icon: BitmapDescriptor.defaultMarkerWithHue(350),
-            position: LatLng(
-                locationsData[locationsKeys[i]]['location'].latitude,
-                locationsData[locationsKeys[i]]['location'].longitude),
-            infoWindow: InfoWindow(title: address));
-
-        markers[markerId] = marker;
-      });
+      final hue = locationsKeys[i] == 'centre' ? 100.00 : 350.00;
+      final MarkerId markerId = MarkerId(i.toString());
+      final Marker marker = Marker(
+          markerId: markerId,
+          icon: BitmapDescriptor.defaultMarkerWithHue(hue),
+          position: LatLng(locationsData[locationsKeys[i]]['location'].latitude,
+              locationsData[locationsKeys[i]]['location'].longitude));
+      markers[markerId] = marker;
     }
     var allLats = [];
     var allLongs = [];
@@ -180,10 +207,6 @@ class BuildMap {
             CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-        },
-        onLongPress: (latlong) {
-          // print(latlong);
-          _addMarkerLongPressed(latlong);
         },
         markers: Set<Marker>.of(markers.values));
   }
