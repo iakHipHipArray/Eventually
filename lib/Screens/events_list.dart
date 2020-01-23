@@ -85,7 +85,6 @@ class _EventsPageState extends State<EventsPage> {
                 padding: EdgeInsets.symmetric(vertical: 30.0),
                 children: <Widget>[
                   mainHeader(),
-                  headerNavigationBar(),
                   subHeaderRow(context),
                   eventCarousel(snapshot),
                 ],
@@ -227,7 +226,8 @@ class _EventsPageState extends State<EventsPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: Image(
-          image: AssetImage('assets/images/2020IAKEventually_Logo_AnimatedLarge.gif'),
+          image: AssetImage(
+              'assets/images/2020IAKEventually_Logo_AnimatedLarge.gif'),
           width: 100,
         ),
       ),
@@ -265,17 +265,6 @@ class _EventsPageState extends State<EventsPage> {
     );
   }
 
-  Row headerNavigationBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: _headericons
-          .asMap()
-          .entries
-          .map((MapEntry map) => _buildIcon(map.key))
-          .toList(),
-    );
-  }
-
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
       currentIndex: _currentTab,
@@ -294,9 +283,9 @@ class _EventsPageState extends State<EventsPage> {
         ),
         BottomNavigationBarItem(
           icon: GestureDetector(
-            onTap: () => Navigator.of(context)
-            .pushNamed(NotificationsPageRoute),
-                      child: Icon(
+            onTap: () =>
+                Navigator.of(context).pushNamed(NotificationsPageRoute),
+            child: Icon(
               Icons.notifications_active,
               size: 30.0,
             ),
@@ -305,8 +294,7 @@ class _EventsPageState extends State<EventsPage> {
         ),
         BottomNavigationBarItem(
           icon: GestureDetector(
-            onTap: () => Navigator.of(context)
-            .pushNamed(ProfilePageRoute),
+            onTap: () => Navigator.of(context).pushNamed(ProfilePageRoute),
             child: CircleAvatar(
               radius: 15.0,
               backgroundImage: NetworkImage(

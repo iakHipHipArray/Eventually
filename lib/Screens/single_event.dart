@@ -45,16 +45,15 @@ class SingleEvent extends StatelessWidget {
                   backgroundColor: Theme.of(context).primaryColor,
                   title: Text('$eventName'),
                   // '$eventId
-                  leading: Icon(Icons.menu),
-                  actions: <Widget>[
-                    IconButton(icon: Icon(Icons.home), onPressed: () => {}),
-                    IconButton(icon: Icon(Icons.more_vert), onPressed: () => {})
-                  ],
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+
                   bottom: TabBar(
                     indicatorColor: Theme.of(context).accentColor,
                     tabs: <Widget>[
                       Tab(text: 'Summary', icon: Icon(Icons.adjust)),
-                      Tab(text: 'Activities', icon: Icon(Icons.local_activity)),
                       Tab(
                         text: 'Location',
                         icon: Icon(Icons.location_city),
@@ -62,7 +61,8 @@ class SingleEvent extends StatelessWidget {
                       Tab(
                         text: 'Dates',
                         icon: Icon(Icons.calendar_view_day),
-                      )
+                      ),
+                      Tab(text: 'Activities', icon: Icon(Icons.local_activity)),
                     ],
                   ),
                 ),
