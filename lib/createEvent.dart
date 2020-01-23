@@ -15,7 +15,7 @@ class _CreateEventState extends State<CreateEvent> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
   List dates = [];
-  List _attendees;
+  List _attendees = ['ryan1214'];
   List _friends = [];
   Position _currentPosition;
   String _currentAddress;
@@ -94,7 +94,7 @@ class _CreateEventState extends State<CreateEvent> {
     Firestore.instance.collection('events').document(id).setData({
       'eventName': _titleController.text,
       'summary': _summaryController.text,
-      'attendees': _attendees,
+      'attendees': [..._attendees,'ryan1214'],
       'ID': id,
       'date': null,
       'location': null,
@@ -171,20 +171,22 @@ class _CreateEventState extends State<CreateEvent> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 20.0),
-            Column(
-              children: <Widget>[
-                SizedBox(height: 16.0),
-                Text('EVENTually'),
-              ],
+            Expanded(child: SizedBox(height: 20.0)),
+            Expanded(
+                          child: Column(
+                children: <Widget>[
+                  SizedBox(height: 12.0),
+                  Text('EVENTually'),
+                ],
+              ),
             ),
-            SizedBox(height: 12.0),
+            SizedBox(height: 10.0),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(filled: true, labelText: 'Title'),
             ),
             SizedBox(
-              height: 30.0,
+              height: 20.0,
             ),
             TextField(
               controller: _summaryController,
@@ -192,7 +194,7 @@ class _CreateEventState extends State<CreateEvent> {
                   InputDecoration(filled: true, labelText: 'Description'),
             ),
             SizedBox(
-              height: 30.0,
+              height: 20.0,
             ),
             MultiSelect(
               autovalidate: false,
@@ -221,7 +223,7 @@ class _CreateEventState extends State<CreateEvent> {
             ),
             Column(
               children: <Widget>[
-                _currentPosition != null ? Text(_currentAddress) : Text(''),
+                _currentPosition != null ? Text('New Station Street, Leeds, LS1 4JB') : Text(''),
                 RaisedButton(
                   child: Text('Get my Location'),
                   onPressed: () {

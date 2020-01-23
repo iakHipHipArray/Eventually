@@ -57,7 +57,7 @@ class _ProfileState extends State<Profile> {
         leading: IconButton(
             icon: Icon(FontAwesomeIcons.arrowLeft),
             onPressed: () {
-              //
+              Navigator.pop(context);
             }),
         title: Text("User Profile"),
       ),
@@ -68,7 +68,7 @@ class _ProfileState extends State<Profile> {
 
 Widget _buildBody(BuildContext context){
   return StreamBuilder(
-    stream: Firestore.instance.collection('users').document('bob742').snapshots(),
+    stream: Firestore.instance.collection('users').document('ryan1214').snapshots(),
     builder: (context, snapshot) {
       final user= snapshot.data.data;
       final firstName = user['firstName'];
