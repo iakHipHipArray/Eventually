@@ -9,11 +9,18 @@ class Summary extends StatelessWidget {
       children: <Widget>[
         Text(
           'Event Overview',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38,
+           letterSpacing: 1.5,),
         ),
         Card(
           child: Column(children: <Widget>[
-            Text('My event'),
+            Text('My event',
+                style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+            ),
+            ),
             Text(
                 'asdfgfdsfgfdsdfg dfghfdfsg jdfkg dfkg jdfkjgh ekjfhg djfhg dkjfgh dfjh '),
           ]),
@@ -52,10 +59,14 @@ Widget _buildBody(BuildContext context) {
           itemBuilder: (context, index) => Card(
                 child: Row(
                   children: <Widget>[
-                    Text(snapshot.data.data[keys[index]]['name']),
+                    Text(
+                      snapshot.data.data[keys[index]]['name'],
+                      ),
                     snapshot.data.data[keys[index]]['attending']
-                        ? Icon(Icons.check)
-                        : Icon(Icons.clear)
+                        ? Icon(Icons.check, color: Colors.green[600],
+                        )
+                        : Icon(Icons.clear, color: Colors.red[800],
+                        ),
                   ],
                 ),
               ));
