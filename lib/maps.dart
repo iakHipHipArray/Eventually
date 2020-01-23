@@ -152,6 +152,15 @@ class MapState extends State<Map> {
 }
 
 class BuildMap {
+  _addMarkerLongPressed(latlong) {
+    Firestore.instance.collection('locations').document('event1').updateData({
+      new DateTime.now().millisecondsSinceEpoch.toString(): {
+        'location': new GeoPoint(latlong.latitude, latlong.longitude),
+        'votes': 0
+      }
+    });
+  }
+
   makeMarkers(locations, attendees) {
     var markers = <MarkerId, Marker>{};
     final locationsData = locations.data.data;
@@ -204,6 +213,9 @@ class BuildMap {
             CameraPosition(target: LatLng(53.7949464, -1.5464861), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+        },
+        onLongPress: (latlong) {
+          _addMarkerLongPressed(latlong);
         },
         markers: Set<Marker>.of(markers.values));
   }
