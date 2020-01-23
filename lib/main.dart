@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
        final color = Theme.of(context).primaryColor;
     _scale = 1 - _controller.value;
     return MaterialApp(
+            debugShowCheckedModeBanner: false,
           home: Scaffold(
             backgroundColor: Colors.white,
         body: Center(
