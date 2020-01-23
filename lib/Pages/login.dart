@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
              ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Image(
-            image: AssetImage('assets/images/2020IAKEventuallyLogoAnimatedSmall.gif'),
+            image: AssetImage('assets/images/2020IAKEventually_Logo_AnimatedLarge.gif'),
             fit: BoxFit.cover,
           ),
         ),
