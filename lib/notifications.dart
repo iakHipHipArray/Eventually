@@ -46,6 +46,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
     getDetails();
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Notifications'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: StreamBuilder(
         stream: Firestore.instance
             .collection('notifications')
