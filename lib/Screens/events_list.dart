@@ -275,9 +275,13 @@ class _EventsPageState extends State<EventsPage> {
       },
       items: [
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.add_comment,
-            size: 30.0,
+          icon: GestureDetector(
+            onTap: () =>
+                Navigator.of(context).pushNamed(CreateEventRoute),
+                      child: Icon(
+              Icons.add_comment,
+              size: 30.0,
+            ),
           ),
           title: SizedBox.shrink(),
         ),
