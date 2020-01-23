@@ -3,3 +3,4 @@ const String EventsPageRoute = '/events';
 const String SingleEventRoute = '/event1';
 const String LoginPageRoute = '/login';
 const String ProfilePageRoute = '/profile';
+const String NotificationsPageRoute = '/notifications';

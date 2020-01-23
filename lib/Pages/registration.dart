@@ -94,8 +94,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                       controller: _userNameController,
                       decoration: InputDecoration(
                           labelText: "Username",
-                                               border: InputBorder.none,
-                          hintText: "Username",
+                          hintText: "example: eventuallyNC123",
                           hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                           labelStyle: TextStyle(
                             fontSize: 16,
@@ -112,7 +111,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                       controller: _firstNameController,
                       decoration: InputDecoration(
                           labelText: "First Name",
-                          hintText: "First Name",
+                          hintText: "example: Eventually",
                           labelStyle: TextStyle(
                             fontSize: 16,
                           ),
@@ -131,7 +130,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                       controller: _lastNameController,
                       decoration: InputDecoration(
                           labelText: "Last Name",
-                          hintText: "Last Name",
+                          hintText: "example: NC",
                           labelStyle: TextStyle(
                             fontSize: 16,
                           ),
