@@ -6,6 +6,11 @@ class Activity extends StatelessWidget {
  final  TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
+  final String eventId;
+
+  Activity(this.eventId);
+
+
   newActivity(BuildContext context) async {
     return showDialog(
         context: context,
@@ -33,7 +38,6 @@ class Activity extends StatelessWidget {
                 )
               ],
             ),
-            
           );
         });
   }
@@ -44,7 +48,7 @@ class Activity extends StatelessWidget {
           body: Column(
         children: <Widget>[
       Expanded(
-        child: _buildBody(context),
+        child: _buildBody(context,eventId),
       ),
       RaisedButton(
         child: Icon(
@@ -62,11 +66,11 @@ class Activity extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context) {
+Widget _buildBody(BuildContext context,eventId) {
   return StreamBuilder(
     stream: Firestore.instance
         .collection('activities')
-        .document('event1')
+        .document(eventId)
         .snapshots(),
     builder: (context, snapshot) {
       if (!snapshot.hasData) return Text('LOADING');
@@ -79,15 +83,29 @@ Widget _buildBody(BuildContext context) {
             final description = snapshot.data.data[keys[index]]['body'].toString();
             return Card(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(activity),
-                        Text(description),
-                      ],
+                    Container(
+                      width: 300,
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              activity,
+                              style: TextStyle(fontWeight:FontWeight.bold)
+                              ),
+                          ),
+                          Text(description),
+                        ],
+                      ),
                     ),
-                    Voter('activities','event1',keys[index])
+                    Padding(
+                      padding: const EdgeInsets.only(right:15),
+                      child: Voter('activities',eventId,keys[index]),
+                    )
                   ],
                 ),
                 

@@ -45,6 +45,7 @@ class _VoterState extends State<Voter> {
         GestureDetector(
             child: Icon(
               _isButtonDisabled ? (Icons.favorite) : (Icons.favorite_border),
+            color: Color(0xFFd32f2f)
             ),
             onTap: () {
               _isButtonDisabled

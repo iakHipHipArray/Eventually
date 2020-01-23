@@ -68,10 +68,10 @@ class SingleEvent extends StatelessWidget {
                 ),
                 body: TabBarView(
                   children: <Widget>[
-                   Summary(),
-                    Activity(),
-                    Map(eventId: eventId),
-                    DatesTab(),
+                    Summary(eventId),
+                    Map(eventId),
+                    DatesTab(eventId),
+                    Activity(eventId),
                   ],
                 ),
               ),

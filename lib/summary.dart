@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
+
 
 class DropDown extends StatefulWidget {
   final document;
@@ -15,7 +17,6 @@ class _DropDownState extends State<DropDown> {
   String dropDownLocation = 'Sheffield';
   @override
   Widget build(BuildContext context) {
-              print(widget.dates);
     return Column(
       children: <Widget>[
         new DropdownButton<String>(
@@ -65,59 +66,86 @@ class _DropDownState extends State<DropDown> {
 }
 
 class Summary extends StatelessWidget {
+  final String eventId;
+
+  Summary(this.eventId);
 
   @override
   Widget build(BuildContext context) {
+    print(eventId);
     return StreamBuilder(
       stream: Firestore.instance.collection('events')
-        .document('event1')
+        .document(eventId)
         .snapshots(),
       builder: (context, snapshot) {
+        print(eventId);
         if (!snapshot.hasData) return Text('LOADING');
         final event = snapshot.data.data;
         final date = event['date'] == null ? 'Date: TBC' : event['date'];
         final location = event['location'] == null ? 'Location: TBC' : event['location'];
+        var number = new Random();
+  
         // final image = event['image'] ? event['image'] : '';
         // print(image);
         return Container(
             child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Stack(
               children:<Widget>[ 
-                // Image(
-                //   image: NetworkImage(
-                //     image
-                //   ),
-                // ),
                 Container(
                   child: Column(
-                    children: <Widget>[
-                      Text(
-                        event['eventName'],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
-                      ),
-                      Text(event['summary'])
-                    ]
-                  ),
-                )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      event['eventName'],
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
+                    ),
+                    Text(event['summary'])
+                  ]
+                ),
+                  )
               ],
             ),
-            Card(
-              child: Row(
-                children: <Widget>[Icon(Icons.location_on), Text(location)],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[Icon(Icons.location_on, color:Colors.pink), Text(location)],
+                    ),
+                  ),
+                ),
+                Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      Icons.calendar_today, 
+                      color:Colors.blue), 
+                    Padding(
+                      padding: const EdgeInsets.only(left:2),
+                      child: Text(date),
+                    )],
+                ),
               ),
             ),
-            Card(
-              child: Row(
-                children: <Widget>[Icon(Icons.calendar_today), Text(date)],
-              ),
+              ],
             ),
             Expanded(
               child: Container(
-                child: _buildBody(context),
+                child: _buildBody(context,eventId),
               ),
             ),
-            if(event['date'] == null) finalizeButton(context)
+            if(event['date'] == null) finalizeButton(context,eventId)
           ],
         ));
       }
@@ -125,11 +153,11 @@ class Summary extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context) {
+Widget _buildBody(BuildContext context,eventId) {
   return StreamBuilder(
     stream: Firestore.instance
         .collection('attendees')
-        .document('event1')
+        .document(eventId)
         .snapshots(),
     builder: (context, snapshot) {
       if (!snapshot.hasData) return Text('LOADING');
@@ -139,9 +167,11 @@ Widget _buildBody(BuildContext context) {
           itemCount: keys.length,
           itemBuilder: (context, index) => Card(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       snapshot.data.data[keys[index]]['name'],
+                      style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     snapshot.data.data[keys[index]]['attending']
                         ? Icon(Icons.check, color: Colors.green[600],
@@ -155,7 +185,7 @@ Widget _buildBody(BuildContext context) {
   );
 }
 
-Widget finalizeButton(BuildContext context) {
+Widget finalizeButton(BuildContext context,eventId) {
   finalizeEvent(BuildContext context) async {
   final locations = ['Sheffield','Leeds', 'Slough','Edinburgh'];
   final dates = ['02-02-2020','21-02-2020','01-03-2020'];
@@ -164,7 +194,7 @@ Widget finalizeButton(BuildContext context) {
     builder: (context) {
       return AlertDialog(
         title: Text('Finalize Details'),
-        content: DropDown('event1',dates,locations),
+        content: DropDown(eventId,dates,locations),
       );
     });
   }
