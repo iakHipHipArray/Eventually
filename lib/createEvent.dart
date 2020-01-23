@@ -280,6 +280,7 @@ class _CreateEventState extends State<CreateEvent> {
                     postAttendees();
                     sendNotifications();
                     postActivities();
+                    Navigator.pop(context);
                     //navigate to singleEvent.dart
                   },
                 )
