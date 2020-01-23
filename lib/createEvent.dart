@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateEvent extends StatefulWidget {
@@ -50,24 +51,32 @@ class _CreateEventState extends State<CreateEvent> {
       setState(() {
         _currentPosition = position;
       });
-      _getAddressFromLatLng();
+      getAddress().then((data) => _currentPosition = data);
     });
   }
 
-  _getAddressFromLatLng() async {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
+  // _getAddressFromLatLng() async {
+  //   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  //   try {
+  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(
+  //         _currentPosition.latitude, _currentPosition.longitude);
 
-      Placemark place = p[0];
+  //     Placemark place = p[0];
 
-      setState(() {
-        _currentAddress = "${place.postalCode}, ${place.country}";
-      });
-    } catch (e) {
-      print(e);
-    }
+  //     setState(() {
+  //       _currentAddress = "${place.postalCode}, ${place.country}";
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  getAddress() async {
+    final coordinates =
+        new Coordinates(_currentPosition.latitude, _currentPosition.longitude);
+    final addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    return addresses.first.addressLine;
   }
 
   postLocation() {
