@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _usernameController,
                   decoration: InputDecoration(
                      labelText: 'Username',
+                     prefixIcon: Icon(Icons.person_outline),
                      border: InputBorder.none,
                       hintText: "JohnDoe@example.com",
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
@@ -64,6 +65,7 @@ FlatButton(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock_outline),
                   ),
                 obscureText: true,
               ),
@@ -136,21 +138,6 @@ FlatButton(
                       ),
                   ),
                 ),
-                /* RaisedButton(
-                  child: Container(
-                    child: Text(
-                      'LOGIN'),
-                  ),
-                  onPressed: () {
-                    authHandler
-                        .handleSignInEmail(
-                            _usernameController.text, _passwordController.text)
-                        .then((FirebaseUser user) {
-                      Navigator.of(context).pushNamed(EventsPageRoute, arguments: 'Events List');
-                    }).catchError((e) => print(e));
-                  },
-
-              ), */
                ],
                 )
           ],
