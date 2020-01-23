@@ -3,6 +3,7 @@ import 'package:EVENTually/Pages/profile.dart';
 import 'package:EVENTually/Screens/events_list.dart';
 import 'package:EVENTually/Screens/single_event.dart';
 import 'package:EVENTually/main.dart';
+import 'package:EVENTually/notifications.dart';
 import 'package:EVENTually/routing_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => EventsPage());
               case ProfilePageRoute:
         return MaterialPageRoute(builder: (_) => Profile());
+              case NotificationsPageRoute:
+        return MaterialPageRoute(builder: (_) => NotificationsPage());
       case LoginPageRoute:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case SingleEventRoute:
