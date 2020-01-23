@@ -30,15 +30,13 @@ Widget _buildBody(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('Start: ' +
-                        new DateFormat('dd-MM-yyy')
-                            .format(snapshot.data.data[keys[index]]['start']
-                                .toDate())
-                            .toString()),
+                        
+                  snapshot.data.data[keys[index]]['start']
+                    ),
                     Text('Finish: ' +
-                        new DateFormat('dd-MM-yyy')
-                            .format(
-                                snapshot.data.data[keys[index]]['end'].toDate())
-                            .toString())
+                        
+                            
+                                snapshot.data.data[keys[index]]['end'])
                   ],
                 ),
                 Text('Attendees: ' +
